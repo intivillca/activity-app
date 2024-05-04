@@ -1,0 +1,7 @@
+{
+  "name": "@tripapp/message-db-server",
+  "version": "1.0.0",
+  "dependencies": {
+    "@tripapp/db": "1.0.0"
+  }
+}

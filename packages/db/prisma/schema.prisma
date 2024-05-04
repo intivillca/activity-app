@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Define the User model
+model User {
+  ID          Int         @id @default(autoincrement())
+  username    String      @unique
+  email       String      @unique
+  password    String
+  salt        String
+  createdAt   DateTime    @default(now()) @db.Timestamptz
+  updatedAt   DateTime    @updatedAt @db.Timestamptz
+  deletedAt   DateTime?   @db.Timestamptz
+  groups      GroupUser[]
+  groupLeader Group[]     @relation("GroupLeader")
+  messages    Message[]
+}
+
+// Define the Group model
+model Group {
+  ID          Int         @id @default(autoincrement())
+  name        String      @unique
+  description String?
+  maxSize     Int
+  createdAt   DateTime    @default(now()) @db.Timestamptz
+  updatedAt   DateTime    @updatedAt @db.Timestamptz
+  deletedAt   DateTime?   @db.Timestamptz
+  users       GroupUser[]
+  leader      User?       @relation("GroupLeader", fields: [leaderId], references: [ID])
+  leaderId    Int?
+  messages    Message[]
+  trip        Trip?       @relation(fields: [tripId], references: [ID])
+  tripId      Int?
+}
+
+model GroupUser {
+  ID        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [ID])
+  userId    Int
+  group     Group    @relation(fields: [groupId], references: [ID])
+  groupId   Int
+  createdAt DateTime @default(now()) @db.Timestamptz
+
+  @@unique([userId, groupId])
+}
+
+model Message {
+  ID          Int       @id @default(autoincrement())
+  content     String
+  createdAt   DateTime  @default(now()) @db.Timestamptz
+  updatedAt   DateTime  @updatedAt @db.Timestamptz
+  deletedAt   DateTime? @db.Timestamptz
+  attachments String[] // Links to distant web for attachments
+  sender      User      @relation(fields: [senderId], references: [ID])
+  senderId    Int
+  group       Group?    @relation(fields: [groupId], references: [ID])
+  groupId     Int?
+  trip        Trip?     @relation(fields: [tripId], references: [ID])
+  tripId      Int?
+}
+
+model Trip {
+  ID          Int       @id @default(autoincrement())
+  name        String    @unique
+  description String?
+  createdAt   DateTime  @default(now()) @db.Timestamptz
+  updatedAt   DateTime  @updatedAt @db.Timestamptz
+  deletedAt   DateTime? @db.Timestamptz
+  groups      Group[]
+  messages    Message[]
+}

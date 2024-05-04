@@ -1,8 +1,11 @@
 {
-  "name": "trip-app",
+  "name": "tripapp",
   "private": true,
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "prettier": "^3.2.5"
+  }
 }
