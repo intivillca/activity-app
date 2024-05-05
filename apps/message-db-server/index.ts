@@ -1,1 +1,1 @@
-import { prisma } from "@tripapp/db";
+import { db } from "@tripapp/db";

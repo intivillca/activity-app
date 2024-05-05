@@ -1,8 +1,9 @@
 import { Router } from "express";
+import loginUserController from "../controllers/login.controller";
 
 const router = Router();
 const path = "/login";
 
-router.use(path);
+router.post(path, loginUserController);
 
 export { router as login };

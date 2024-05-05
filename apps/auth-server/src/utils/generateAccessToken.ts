@@ -5,7 +5,8 @@ import fs from "fs";
 
 export const generateAccessToken = (username: string) => {
   try {
-    const privateKeyPath = path.join(__dirname, "certs", "private.pem");
+    const certsDir = path.join(process.cwd(), "certs");
+    const privateKeyPath = path.join(certsDir, "private.pem");
     const privateKey = fs.readFileSync(privateKeyPath, "utf8");
     const tokenExpiration = getTokenExpiration();
     return jwt.sign({ username }, privateKey, {
