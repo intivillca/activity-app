@@ -1,5 +1,5 @@
 {
-  "name": "@tripapp/db",
+  "name": "@activityapp/db",
   "version": "1.0.0",
   "dependencies": {
     "@prisma/client": "^5.13.0",

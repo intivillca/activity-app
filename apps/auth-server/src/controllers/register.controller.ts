@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import RegisterUserSchema from "../schemas/registerSchema";
-import { db } from "@tripapp/db";
+import { db } from "@activityapp/db";
 import hashPassword from "../utils/hashPassword";
 import { generateAccessToken } from "../utils/generateAccessToken";
 

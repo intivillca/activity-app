@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { db } from "@tripapp/db";
+import { db } from "@activityapp/db";
 import verifyPassword from "../utils/verifyPassword";
 import { generateAccessToken } from "../utils/generateAccessToken";
 

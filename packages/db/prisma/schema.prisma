@@ -74,7 +74,7 @@ model Message {
   senderId    Int
   group       Group?    @relation(fields: [groupId], references: [ID])
   groupId     Int?
-  trip        Activity? @relation(fields: [activityId], references: [ID])
+  activity    Activity? @relation(fields: [activityId], references: [ID])
   activityId  Int?
 }
 
