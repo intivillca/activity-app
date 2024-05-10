@@ -41,17 +41,24 @@ model Group {
   leader      User?       @relation("GroupLeader", fields: [leaderId], references: [ID])
   leaderId    Int?
   messages    Message[]
-  trip        Trip?       @relation(fields: [tripId], references: [ID])
-  tripId      Int?
+  activity    Activity?   @relation(fields: [activityId], references: [ID])
+  activityId  Int?
+}
+
+enum GroupRole {
+  MEMBER
+  MODERATOR
+  ADMIN
 }
 
 model GroupUser {
-  ID        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [ID])
+  ID        Int       @id @default(autoincrement())
+  user      User      @relation(fields: [userId], references: [ID])
   userId    Int
-  group     Group    @relation(fields: [groupId], references: [ID])
+  group     Group     @relation(fields: [groupId], references: [ID])
   groupId   Int
-  createdAt DateTime @default(now()) @db.Timestamptz
+  createdAt DateTime  @default(now()) @db.Timestamptz
+  groupRole GroupRole
 
   @@unique([userId, groupId])
 }
@@ -67,11 +74,11 @@ model Message {
   senderId    Int
   group       Group?    @relation(fields: [groupId], references: [ID])
   groupId     Int?
-  trip        Trip?     @relation(fields: [tripId], references: [ID])
-  tripId      Int?
+  trip        Activity? @relation(fields: [activityId], references: [ID])
+  activityId  Int?
 }
 
-model Trip {
+model Activity {
   ID          Int       @id @default(autoincrement())
   name        String    @unique
   description String?
