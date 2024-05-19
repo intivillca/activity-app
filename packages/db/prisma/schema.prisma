@@ -28,9 +28,15 @@ model User {
   messages    Message[]
 }
 
-// Define the Group model
+enum GroupType {
+  PUBLIC
+  PRIVATE
+  LOCKED
+}
+
 model Group {
   ID          Int         @id @default(autoincrement())
+  type        GroupType   @default(PUBLIC)
   name        String      @unique
   description String?
   maxSize     Int
@@ -43,6 +49,10 @@ model Group {
   messages    Message[]
   activity    Activity?   @relation(fields: [activityId], references: [ID])
   activityId  Int?
+  startDate   DateTime?   @db.Timestamptz()
+  endDate     DateTime?   @db.Timestamptz()
+  location    String
+  tags        String[]
 }
 
 enum GroupRole {
