@@ -15,6 +15,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 
 const CFaUserAlt = chakra(FaUserAlt);
@@ -24,6 +25,7 @@ export const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleShowClick = () => setShowPassword(!showPassword);
+  const { t } = useTranslation();
   return (
     <Flex
       flexDirection="column"
@@ -40,7 +42,7 @@ export const LoginPage = () => {
         alignItems="center"
       >
         <Avatar bg="teal.500" />
-        <Heading color="teal.400">Welcome</Heading>
+        <Heading color="teal.400">{t("welcome")}</Heading>
         <Box minW={{ base: "90%", md: "468px" }}>
           <form>
             <Stack
@@ -76,7 +78,7 @@ export const LoginPage = () => {
                   </InputRightElement>
                 </InputGroup>
                 <FormHelperText textAlign="right">
-                  <Link>forgot password?</Link>
+                  <Link>{t("forgot_password")}</Link>
                 </FormHelperText>
               </FormControl>
               <Button
@@ -86,16 +88,16 @@ export const LoginPage = () => {
                 colorScheme="teal"
                 width="full"
               >
-                Login
+                {t("login")}
               </Button>
             </Stack>
           </form>
         </Box>
       </Stack>
       <Box>
-        New to us?{" "}
+        {t("new_to_us")}{" "}
         <Link color="teal.500" href="#">
-          Sign Up
+          {t("sign_up")}
         </Link>
       </Box>
     </Flex>
