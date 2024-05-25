@@ -30,6 +30,9 @@ async function registerUserController(req: Request, res: Response) {
         salt: salt,
       },
     });
+    if (!newUser) {
+      return res.status(400).json({ error: "Error creating user" });
+    }
 
     const token = generateAccessToken(newUser.username);
 

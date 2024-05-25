@@ -7,7 +7,7 @@ async function loginUserController(req: Request, res: Response) {
   try {
     const { username, password } = req.body;
 
-    const user = await db.user.findUniqueOrThrow({
+    const user = await db.user.findUnique({
       where: {
         username: username,
       },
