@@ -9,6 +9,7 @@ import i18n from "./i18n";
 const queryClient = new QueryClient();
 
 function App() {
+  console.log(process.env);
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider>

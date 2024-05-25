@@ -3,5 +3,8 @@
   "forgot_password": "forgot password?",
   "login": "Login",
   "new_to_us": "New to us?",
-  "sign_up": "Sign up"
+  "sign_up": "Sign up",
+  "email_address": "E-mail",
+  "username": "Username",
+  "password": "Password"
 }

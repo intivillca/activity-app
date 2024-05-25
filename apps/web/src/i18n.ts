@@ -1,24 +1,23 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import HttpBackend from "i18next-http-backend";
-import LanguageDetector from "i18next-browser-languagedetector";
+// import LanguageDetector from "i18next-browser-languagedetector";
+import en from "./locales/en.json";
+import hr from "./locales/hr.json";
 
-i18n
-  .use(HttpBackend)
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    fallbackLng: "hr",
-    debug: true,
-    backend: {
-      loadPath: "/src/locales/{{lng}}.json",
-    },
-    interpolation: {
-      escapeValue: false,
-    },
-    react: {
-      useSuspense: true,
-    },
-  });
+i18n.use(initReactI18next).init({
+  fallbackLng: "hr",
+  lng: "en",
+  debug: true,
+  resources: { en: { translation: en }, hr: { translation: hr } },
+  interpolation: {
+    escapeValue: false,
+  },
+  react: {
+    useSuspense: true,
+  },
+});
+
+// @ts-ignore
+window.huh = i18n;
 
 export default i18n;

@@ -1,4 +1,4 @@
-import { PropsWithChildren, createContext, useContext } from "react";
+import { PropsWithChildren, createContext, useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { AuthContextValue } from "./types";
 import { verifyToken } from "./verifyToken";
@@ -8,6 +8,7 @@ import axios from "axios";
 const authContext = createContext<AuthContextValue | null>(null);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const token = window.localStorage.getItem("authToken") ?? "";
 
   const { data: pubKey } = useQuery({
@@ -18,26 +19,19 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     },
   });
 
-  const { data: verifyTokenResult } = useQuery({
+  useQuery({
     queryKey: ["Auth-verifyToken", token],
     queryFn: async () => {
-      if (!token || !pubKey) {
-        return false;
+      if (token && pubKey) {
+        await verifyToken(token, pubKey);
+        setIsAuthenticated(true);
       }
-      return verifyToken(token, pubKey);
     },
     enabled: !!pubKey && !!token,
   });
 
-  if (verifyTokenResult) {
-    return (
-      <authContext.Provider value={{ isAuthenticated: !!verifyTokenResult }}>
-        {children}
-      </authContext.Provider>
-    );
-  }
   return (
-    <authContext.Provider value={{ isAuthenticated: false }}>
+    <authContext.Provider value={{ isAuthenticated }}>
       {children}
     </authContext.Provider>
   );

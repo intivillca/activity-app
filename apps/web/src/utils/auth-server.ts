@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = process.env.AUTH_URL;
+const baseURL = process.env.REACT_APP_AUTH_URL;
 
 export const authApi = axios.create({
   baseURL,

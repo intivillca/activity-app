@@ -7,6 +7,8 @@ interface Props {
 export const ProtectedRoute = ({ redirectPath = "/login" }: Props) => {
   const { isAuthenticated } = useAuth();
 
+  console.log("prot route", { isAuthenticated });
+
   if (!isAuthenticated) {
     return <Navigate to={redirectPath} replace />;
   }
