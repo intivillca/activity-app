@@ -17,7 +17,7 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { FaLock, FaUserAlt } from "react-icons/fa";
 import { useCallback, useState } from "react";
 import { LoginRequestData } from "../../types/login";
-import { login } from "../../api/login";
+import { login } from "../../auth/auth-routes/login";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = process.env.API_URL;
+const baseURL = process.env.REACT_APP_DB_URL;
 const authToken = window.localStorage.getItem("authToken");
 
 export const api = axios.create({

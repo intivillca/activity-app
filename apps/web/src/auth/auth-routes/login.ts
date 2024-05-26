@@ -1,5 +1,5 @@
-import { LoginRequestData, LoginResponseData } from "../types/login";
-import { authApi } from "../utils/auth-server";
+import { LoginRequestData, LoginResponseData } from "../../types/login";
+import { authApi } from "../auth-server";
 
 export const login = async (
   data: LoginRequestData

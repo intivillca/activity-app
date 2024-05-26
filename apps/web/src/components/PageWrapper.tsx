@@ -10,6 +10,7 @@ export const PageWrapper = ({ children }: PropsWithChildren) => {
       backgroundColor="gray.200"
       justifyContent="center"
       alignItems="center"
+      overflow={"hidden"}
     >
       {children}
     </Flex>
