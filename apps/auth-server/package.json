@@ -4,8 +4,7 @@
   "scripts": {
     "start": "node ./dist/index.ts",
     "build": "tsc -p .",
-    "dev": "nodemon ./src/index.ts",
-    "secret": "node ./src/utils/generateSecret.ts"
+    "dev": "nodemon ./src/index.ts"
   },
   "dependencies": {
     "@activityapp/db": "1.0.0",
