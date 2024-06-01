@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
-import { groups } from "../groups/testdata";
-import { SimpleGrid, Spinner } from "@chakra-ui/react";
+import { Box, SimpleGrid, Spinner } from "@chakra-ui/react";
 import { GroupCard } from "../groups/GroupCard";
 import { AddGroup } from "../groups/AddGroup";
+import { getActivityGroups } from "../../api/activities/getActivityGroups";
 
 interface Props {
   ID: string | number;
@@ -11,16 +11,19 @@ export const ActivityGroups = ({ ID }: Props) => {
   const { data, isLoading } = useQuery({
     queryKey: [`Activity-${ID}-Groups`],
     queryFn: () => {
-      return groups;
+      return getActivityGroups(ID);
     },
   });
   if (!data || isLoading) return <Spinner />;
+
   return (
-    <SimpleGrid columns={[1, 1, 2, 3]} gridGap={4} w={"full"}>
-      {data.map((group) => (
-        <GroupCard key={group.ID} {...group} />
-      ))}
-      <AddGroup />
-    </SimpleGrid>
+    <Box flex="1 1 auto" overflowY="auto" w={"full"}>
+      <SimpleGrid columns={[1, 1, 2, 3]} gridGap={4} w={"full"} p={4}>
+        {data.groups.map((group) => (
+          <GroupCard key={group.ID} {...group} />
+        ))}
+        <AddGroup />
+      </SimpleGrid>
+    </Box>
   );
 };

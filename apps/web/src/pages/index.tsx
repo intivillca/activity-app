@@ -4,6 +4,7 @@ import { LoginPage } from "./LoginPage";
 import { PageLayout } from "../layouts/PageLayout";
 import { ChatContainer } from "../components/chat/ChatContainer";
 import { Activities } from "./Activites";
+import { ActivitiesWrapper } from "../components/activities/ActivitesWrapper";
 
 export const AppRoutes = () => {
   return (
@@ -14,8 +15,10 @@ export const AppRoutes = () => {
         <Route element={<ProtectedRoute />}>
           <Route element={<PageLayout />}>
             <Route path="/" element={<>{"router successfuly configured"}</>} />
-            <Route path="/activities/:ID" element={<Activities />} />
-            <Route path="/activities/:ID/chat" element={<ChatContainer />} />
+            <Route element={<ActivitiesWrapper />}>
+              <Route path="/activities/:ID" element={<Activities />} />
+              <Route path="/activities/:ID/chat" element={<ChatContainer />} />
+            </Route>
           </Route>
         </Route>
       </Routes>
