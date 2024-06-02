@@ -3,5 +3,27 @@
   "forgot_password": "zaboravljena lozinka?",
   "login": "Ulogiraj se",
   "new_to_us": "Novi korisnik?",
-  "sign_up": "Registrirajte se"
+  "sign_up": "Registrirajte se",
+  "groups": {
+    "join_group": "Pridruži se grupi",
+    "add_group": "Dodaj grupu",
+    "group_is_locked": "Grupa je zaključana"
+  },
+  "activities": {
+    "add_activity": "Dodaj aktivnost",
+    "form": {
+      "name": "Ime aktivnosti",
+      "description": "Opis",
+      "start_date": "Datum početka",
+      "end_date": "Datum kraja",
+      "location": "Lokacija",
+      "tags": "Oznake",
+      "image": "Slika",
+      "submit": "Pošalji"
+    }
+  },
+  "form": {
+    "location_search": "Pretraži lokacije",
+    "enter_tags": "Unesi oznake"
+  }
 }
