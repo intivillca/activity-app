@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { getActivitiesForUser } from "../api/user-activities/get-activities-for-user";
 import { Divider, Spinner, VStack } from "@chakra-ui/react";
 import { ActivityLink } from "./activities/ActivityLink";
-import { AddActivity } from "./activities/AddActivity";
+import { AddActivityButton } from "./activities/AddActivity";
 import { UserGroupsButton } from "./groups/UserGroupsButton";
 
 export const Sidebar = () => {
@@ -20,7 +20,7 @@ export const Sidebar = () => {
       {data.activities.map((item) => (
         <ActivityLink {...item} key={item.ID} />
       ))}
-      <AddActivity />
+      <AddActivityButton />
     </VStack>
   );
 };
