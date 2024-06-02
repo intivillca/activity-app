@@ -67,12 +67,14 @@ export const GroupCard = ({
                 joinGroup(ID);
               }
             }}
-            aria-label={"join-group"}
+            aria-label={t("groups.join-group")}
             isDisabled={type === "LOCKED"}
             variant={"ghost"}
             leftIcon={type === "LOCKED" ? <FaLock /> : <FaCirclePlus />}
           >
-            {type === "LOCKED" ? t("group_is_locked") : t("join_group")}
+            {type === "LOCKED"
+              ? t("groups.group_is_locked")
+              : t("groups.join_group")}
           </Button>
         </CardFooter>
       </Stack>

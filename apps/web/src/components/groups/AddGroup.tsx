@@ -7,7 +7,7 @@ export const AddGroup = () => {
   return (
     <Card>
       <CardBody as={Button} leftIcon={<FaPlus />}>
-        {t("add_group")}
+        {t("groups.add_group")}
       </CardBody>
     </Card>
   );
