@@ -1,10 +1,11 @@
 import { Box } from "@chakra-ui/react";
+import { ActivityInfoDrawer } from "./Info/ActivityInfoDrawer";
 
 export const ActivityHeader = () => {
   return (
     <Box
-      h={"64px"}
-      flex={"0 1 64px"}
+      h={"72px"}
+      flex={"0 1 72px"}
       bg={"gray.700"}
       w="full"
       color={"white"}
@@ -13,7 +14,7 @@ export const ActivityHeader = () => {
       textOverflow={"ellipsis"}
       fontSize={"xl"}
     >
-      {"Header"}
+      <ActivityInfoDrawer />
     </Box>
   );
 };
