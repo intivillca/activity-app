@@ -4,6 +4,5 @@ export interface Attachment {
   updatedAt: string;
   deletedAt: string | null;
   src: string;
-  mine: string;
-  messageID: number;
+  mime: string;
 }

@@ -13,3 +13,5 @@ export interface Activity {
   tags: string[];
   img?: Image;
 }
+
+export type FormActivity = Omit<Activity, "img"> & { img?: File };
