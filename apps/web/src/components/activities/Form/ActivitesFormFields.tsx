@@ -11,9 +11,9 @@ import {
 } from "@chakra-ui/react";
 import { TagInput } from "../../global/TagInput";
 import { LocationInput } from "../../global/LocationInput";
-import { SingleImageInput } from "../../global/SingleImageInput";
 import { latLngToString, stringToLatLng } from "../../../utils/location-utils";
 import { useTranslation } from "react-i18next";
+import { AvatarInput } from "../../global/AvatarInput";
 
 export const ActivitiesFormFields = () => {
   const {
@@ -33,6 +33,11 @@ export const ActivitiesFormFields = () => {
   } = useController({ control, name: "location" });
   return (
     <Box p={4} borderWidth={1} borderRadius="lg">
+      <FormControl isInvalid={!!errors.img} mb={4}>
+        <FormLabel htmlFor="img">{t("activities.form.image")}</FormLabel>
+        <AvatarInput value={img} onChange={onChangeImg} />
+        <FormErrorMessage>{errors.img && errors.img.message}</FormErrorMessage>
+      </FormControl>
       <FormControl isInvalid={!!errors.description} mb={4}>
         <FormLabel htmlFor="name">{t("activities.form.name")}</FormLabel>
         <Input
@@ -98,12 +103,6 @@ export const ActivitiesFormFields = () => {
         <FormErrorMessage>
           {errors.tags && errors.tags.message}
         </FormErrorMessage>
-      </FormControl>
-
-      <FormControl isInvalid={!!errors.img} mb={4}>
-        <FormLabel htmlFor="img">{t("activities.form.image")}</FormLabel>
-        <SingleImageInput value={img} onChange={onChangeImg} />
-        <FormErrorMessage>{errors.img && errors.img.message}</FormErrorMessage>
       </FormControl>
 
       <Button mt={4} colorScheme="teal" isLoading={false} type="submit">
