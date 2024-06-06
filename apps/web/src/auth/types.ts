@@ -12,4 +12,5 @@ export interface RSA_JWK {
 
 export interface AuthContextValue {
   isAuthenticated: boolean;
+  userID: string;
 }
