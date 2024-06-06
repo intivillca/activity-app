@@ -1,8 +1,10 @@
 import { db } from "@activityapp/db";
 import { Request, Response } from "express";
 import { parseID } from "../../utils/parseID";
+import { validateAndFilterData } from "../../utils/validateAndFilterData";
+import { patchActivitySchema } from "../../schemas/patchActivitySchema";
 
-export const activityController = async (
+export const patchActivityController = async (
   req: Request<{ activityID: string }>,
   res: Response
 ) => {
@@ -14,22 +16,32 @@ export const activityController = async (
     if (!toNumber || !userIDToNumber) {
       return res.status(400).json({ message: "ID must be a number" });
     }
-    const isMember = await db.activityMember.findUnique({
+    const member = await db.activityMember.findUnique({
       where: {
         userId_activityId: { activityId: toNumber, userId: userIDToNumber },
       },
     });
 
-    if (!isMember) {
+    console.log(member);
+
+    if (!member || (member && member?.groupRole !== "ADMIN")) {
       return res
         .status(401)
-        .json({ message: "User is not a member of this activity" });
+        .json({ message: "User must be admin to edit activity" });
     }
 
-    const activity = await db.activity.findUnique({
+    const validData = validateAndFilterData(req.body, patchActivitySchema);
+
+    if (!validData) {
+      return res.status(400).json({ message: "Data is invalid" });
+    }
+    console.log(validData);
+
+    const activity = await db.activity.update({
       where: { ID: toNumber },
-      include: { img: true },
+      data: validData,
     });
+
     if (!activity) {
       return res.status(404).json({ message: "Activity not found" });
     }
