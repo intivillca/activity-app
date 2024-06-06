@@ -3,49 +3,99 @@ import {
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
-  DrawerHeader,
   DrawerOverlay,
-  IconButton,
-  useDisclosure,
+  DrawerProps,
 } from "@chakra-ui/react";
-import { useRef } from "react";
-import { useTranslation } from "react-i18next";
-import { FaCircleInfo } from "react-icons/fa6";
-import { ActivityInfoDrawContent } from "./ActivitiyInfoDrawerContent";
+import { FormProvider, useForm } from "react-hook-form";
+import { FormActivity } from "../../../types/activity";
+import { ActivityFormInfoDrawerContent } from "./ActivityInfoFormDrawerContent";
+import { useActivityProvider } from "../ActivityCtx";
+import { ActivityInfoDrawerContent } from "./ActivityInfoDrawerContent";
+import { createContext, useCallback, useContext } from "react";
+import { patchActivity } from "../../../api/activities/patchActivity";
 
-export const ActivityInfoDrawer = () => {
-  const { t } = useTranslation("");
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = useRef<HTMLButtonElement>(null);
+interface Props extends Omit<DrawerProps, "isOpen" | "children"> {}
+
+const ActivityInfoNoFormDrawer = (props: Props) => {
   return (
-    <>
-      <IconButton
-        colorScheme="white"
-        ref={btnRef}
-        aria-label={t("activity.info")}
-        icon={<FaCircleInfo />}
-        onClick={onOpen}
-        variant={"ghost"}
-      />
-      {isOpen && (
-        <Drawer
-          size={"md"}
-          isOpen={isOpen}
-          placement="right"
-          onClose={onClose}
-          finalFocusRef={btnRef}
-        >
-          <DrawerOverlay />
-          <DrawerContent p="0" m={0}>
-            <DrawerCloseButton />
-            <DrawerHeader>Create your account</DrawerHeader>
+    <Drawer
+      {...props}
+      size={["full", "full", "md", "md"]}
+      isOpen={true}
+      placement="right"
+    >
+      <DrawerOverlay />
+      <DrawerContent p="0" m={0}>
+        <DrawerCloseButton />
+        <DrawerBody p={0} overflowY="auto">
+          <ActivityInfoDrawerContent />
+        </DrawerBody>
+      </DrawerContent>
+    </Drawer>
+  );
+};
 
-            <DrawerBody p={0} m={0}>
-              <ActivityInfoDrawContent />
-            </DrawerBody>
+const ActivityInfoCtx = createContext<{
+  handleSubmit: (data: FormActivity) => void;
+} | null>(null);
+
+export const useActivityInfoCtx = () => {
+  const usedCtx = useContext(ActivityInfoCtx);
+  if (!usedCtx) {
+    throw Error("Missing ActivityInfoContext");
+  }
+  return usedCtx;
+};
+
+const ActivityInfoFormDrawer = ({ onClose, ...rest }: Props) => {
+  const { activity } = useActivityProvider();
+  const methods = useForm<FormActivity>({
+    defaultValues: { ...activity, img: activity.img?.src },
+  });
+  const onSubmit = useCallback(
+    async (data: FormActivity) => {
+      console.log(data);
+      const idk = await patchActivity({ activityID: activity.ID, data });
+      console.log(idk);
+    },
+    [activity.ID]
+  );
+  const handleClose = () => {
+    methods.handleSubmit(onSubmit)();
+    onClose();
+  };
+  return (
+    <Drawer
+      {...rest}
+      onClose={() => {
+        handleClose();
+      }}
+      size={["full", "full", "md", "md"]}
+      isOpen={true}
+      placement="right"
+    >
+      <DrawerOverlay />
+      <DrawerCloseButton />
+      <ActivityInfoCtx.Provider value={{ handleSubmit: onSubmit }}>
+        <FormProvider {...methods}>
+          <DrawerContent p="0" m={0} overflowY="auto">
+            <form onSubmit={methods.handleSubmit(onSubmit)}>
+              <ActivityFormInfoDrawerContent />
+            </form>
           </DrawerContent>
-        </Drawer>
-      )}
-    </>
+        </FormProvider>
+      </ActivityInfoCtx.Provider>
+    </Drawer>
+  );
+};
+
+export const ActivityInfoDrawer = ({
+  isEditable = false,
+  ...rest
+}: Props & { isEditable?: boolean }) => {
+  return isEditable ? (
+    <ActivityInfoFormDrawer {...rest} />
+  ) : (
+    <ActivityInfoNoFormDrawer {...rest} />
   );
 };
