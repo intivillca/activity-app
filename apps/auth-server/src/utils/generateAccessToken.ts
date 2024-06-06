@@ -3,13 +3,13 @@ import { getTokenExpiration } from "./getTokenExpiration";
 import path from "path";
 import fs from "fs";
 
-export const generateAccessToken = (username: string) => {
+export const generateAccessToken = (userID: number) => {
   try {
     const certsDir = path.join(process.cwd(), "certs");
     const privateKeyPath = path.join(certsDir, "private.pem");
     const privateKey = fs.readFileSync(privateKeyPath, "utf8");
     const tokenExpiration = getTokenExpiration();
-    return jwt.sign({ username }, privateKey, {
+    return jwt.sign({ userID }, privateKey, {
       algorithm: "RS256",
       expiresIn: tokenExpiration,
     });

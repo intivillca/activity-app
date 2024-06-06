@@ -27,7 +27,7 @@ async function loginUserController(req: Request, res: Response) {
       return res.status(401).json({ error: "Invalid username or password" });
     }
 
-    const token = generateAccessToken(user.username);
+    const token = generateAccessToken(user.ID);
     return res.json({ token });
   } catch (error) {
     console.error("Error logging in user:", error);
