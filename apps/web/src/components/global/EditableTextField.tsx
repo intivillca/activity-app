@@ -17,12 +17,14 @@ interface Props {
   value?: string;
   onChange: (value: string) => void;
   editableProps?: EditableProps;
+  isEditable?: boolean;
 }
 export const EditableTextField = ({
   placeholder = "",
   value,
   onChange,
   editableProps,
+  isEditable = true,
 }: Props) => {
   return (
     <EditableContext
@@ -32,14 +34,15 @@ export const EditableTextField = ({
       value={value}
       alignItems={"center"}
       onChange={onChange}
+      isDisabled={!isEditable}
       {...editableProps}
     >
-      <EditableInner />
+      <EditableInner isEditable={isEditable} />
     </EditableContext>
   );
 };
 
-export const EditableInner = () => {
+export const EditableInner = ({ isEditable }: { isEditable: boolean }) => {
   const { t } = useTranslation("");
   const {
     isEditing,
@@ -51,28 +54,35 @@ export const EditableInner = () => {
     <>
       <EditablePreview textAlign={"center"} />
       <Input as={EditableInput} />
-      {isEditing ? (
-        <ButtonGroup justifyContent="center" size="sm">
-          <IconButton
-            aria-label={t("form.submit")}
-            icon={<FaCheck />}
-            {...getSubmitButtonProps()}
-          />
-          <IconButton
-            aria-label={t("form.cancel")}
-            icon={<FaTimes />}
-            {...getCancelButtonProps()}
-          />
-        </ButtonGroup>
-      ) : (
-        <Flex justifyContent="center">
-          <IconButton
-            aria-label={t("form.edit")}
-            size="sm"
-            icon={<FaPen />}
-            {...getEditButtonProps()}
-          />
-        </Flex>
+      {isEditable && (
+        <>
+          {isEditing ? (
+            <ButtonGroup
+              justifyContent="center"
+              size={["md", "md", "sm", "sm"]}
+            >
+              <IconButton
+                aria-label={t("form.submit")}
+                icon={<FaCheck />}
+                {...getSubmitButtonProps()}
+              />
+              <IconButton
+                aria-label={t("form.cancel")}
+                icon={<FaTimes />}
+                {...getCancelButtonProps()}
+              />
+            </ButtonGroup>
+          ) : (
+            <Flex justifyContent="center">
+              <IconButton
+                aria-label={t("form.edit")}
+                size={["md", "md", "sm", "sm"]}
+                icon={<FaPen />}
+                {...getEditButtonProps()}
+              />
+            </Flex>
+          )}
+        </>
       )}
     </>
   );
