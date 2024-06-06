@@ -6,7 +6,7 @@ import { getPublicKeys } from "./public-key.middleware";
 import { jwk2pem } from "pem-jwk";
 
 interface JWTPayload {
-  username: string;
+  userID: string;
   iat: number;
   exp: number;
 }
@@ -38,7 +38,7 @@ export function authMiddleware(
       return res.status(401).json({ error: "Unauthorized: Token has expired" });
     }
     if (decodedToken) {
-      req.secret;
+      res.locals.userID = decodedToken.userID;
       next();
     }
   } catch (err) {
