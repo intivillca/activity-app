@@ -11,6 +11,8 @@
   },
   "activities": {
     "add_activity": "Dodaj aktivnost",
+    "invite_members": "Pozovi nove članove",
+    "members": "Članovi",
     "form": {
       "name": "Ime aktivnosti",
       "description": "Opis",
@@ -20,10 +22,29 @@
       "tags": "Oznake",
       "image": "Slika",
       "submit": "Pošalji"
+    },
+    "info": {
+      "info": "Informacije",
+      "location": "Lokacija"
     }
   },
   "form": {
     "location_search": "Pretraži lokacije",
-    "enter_tags": "Unesi oznake"
+    "enter_tags": "Unesi oznake",
+    "edit": "Uredi",
+    "cancel": "Prekini",
+    "submit": "Pošalji",
+    "save": "Spremi",
+    "empty": "Prazno"
+  },
+  "roles": {
+    "admin": "Admin",
+    "moderator": "Moderator",
+    "member": "Član"
+  },
+  "crud": {
+    "created_at": "Kreiran",
+    "updated_at": "Ažuriran",
+    "deleted": "Obrisan"
   }
 }

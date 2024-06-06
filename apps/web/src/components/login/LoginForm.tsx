@@ -77,7 +77,11 @@ export const LoginForm = () => {
               placeholder={t("password")}
             />
             <InputRightElement width="4.5rem">
-              <Button h="1.75rem" size="sm" onClick={handleShowClick}>
+              <Button
+                h="1.75rem"
+                size={["md", "md", "sm", "sm"]}
+                onClick={handleShowClick}
+              >
                 {showPassword ? "Hide" : "Show"}
               </Button>
             </InputRightElement>

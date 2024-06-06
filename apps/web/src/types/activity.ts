@@ -14,4 +14,8 @@ export interface Activity {
   img?: Image;
 }
 
-export type FormActivity = Omit<Activity, "img"> & { img?: File };
+export type FormActivity = Omit<Activity, "img"> & { img?: File | string };
+
+export type PatchActivity = Partial<
+  Omit<Activity, "createdAt" | "updatedAt" | "deletedAt" | "img">
+>;
