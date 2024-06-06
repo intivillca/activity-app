@@ -22,8 +22,6 @@ export const patchActivityController = async (
       },
     });
 
-    console.log(member);
-
     if (!member || (member && member?.groupRole !== "ADMIN")) {
       return res
         .status(401)
@@ -35,7 +33,6 @@ export const patchActivityController = async (
     if (!validData) {
       return res.status(400).json({ message: "Data is invalid" });
     }
-    console.log(validData);
 
     const activity = await db.activity.update({
       where: { ID: toNumber },
@@ -47,7 +44,7 @@ export const patchActivityController = async (
     }
     return res.json(activity);
   } catch (e) {
-    console.error("Error retrieving user activities:", e);
+    console.error("Error patching activity", e);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
