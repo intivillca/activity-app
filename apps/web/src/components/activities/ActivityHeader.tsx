@@ -1,5 +1,6 @@
 import { Box } from "@chakra-ui/react";
-import { ActivityInfoDrawer } from "./Info/ActivityInfoDrawer";
+import { ActivityInfoDrawerTrigger } from "./Info/ActivityInfoDrawerTrigger";
+import { ActivityMemberDrawerTrigger } from "./Members/MemberDrawerTrigger";
 
 export const ActivityHeader = () => {
   return (
@@ -14,7 +15,8 @@ export const ActivityHeader = () => {
       textOverflow={"ellipsis"}
       fontSize={"xl"}
     >
-      <ActivityInfoDrawer />
+      <ActivityInfoDrawerTrigger />
+      <ActivityMemberDrawerTrigger />
     </Box>
   );
 };

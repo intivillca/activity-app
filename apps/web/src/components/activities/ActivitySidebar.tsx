@@ -3,7 +3,9 @@ import { useActivityProvider } from "./ActivityCtx";
 import { useTranslation } from "react-i18next";
 
 export const ActivitySidebar = () => {
-  const { description, name, img } = useActivityProvider();
+  const {
+    activity: { description, name, img },
+  } = useActivityProvider();
 
   const { t } = useTranslation("");
   return (

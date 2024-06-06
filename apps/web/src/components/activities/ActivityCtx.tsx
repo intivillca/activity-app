@@ -1,16 +1,24 @@
 import { PropsWithChildren, createContext, useContext } from "react";
 import { Activity } from "../../types/activity";
+import { ActivityUser } from "../../types/activity-user";
 
-const activityCtx = createContext<Activity | null>(null);
+const activityCtx = createContext<{
+  activity: Activity;
+  activityUser: ActivityUser;
+} | null>(null);
 
 export const ActivityProvider = ({
   activity,
   children,
+  activityUser,
 }: PropsWithChildren<{
   activity: Activity;
+  activityUser: ActivityUser;
 }>) => {
   return (
-    <activityCtx.Provider value={activity}>{children}</activityCtx.Provider>
+    <activityCtx.Provider value={{ activity, activityUser }}>
+      {children}
+    </activityCtx.Provider>
   );
 };
 

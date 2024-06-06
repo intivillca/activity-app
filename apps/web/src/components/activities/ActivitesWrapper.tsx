@@ -4,9 +4,12 @@ import { ActivityProvider } from "./ActivityCtx";
 import { useQuery } from "react-query";
 import { getActivity } from "../../api/activities/getActivity";
 import { ActivityHeader } from "./ActivityHeader";
+import { useAuth } from "../../auth/AuthContext";
+import { getActivityUser } from "../../api/activities/getActivityUser";
 
 export const ActivitiesWrapper = () => {
   const { ID } = useParams<{ ID: string }>();
+  const { userID } = useAuth();
   const { data } = useQuery({
     queryKey: ["Activity", ID],
     queryFn: () => {
@@ -18,10 +21,21 @@ export const ActivitiesWrapper = () => {
     enabled: !!ID,
   });
 
-  if (!data) return <Spinner />;
+  const { data: activityUser } = useQuery({
+    queryKey: ["ActivityUser", ID, userID],
+    queryFn: () => {
+      if (!ID) {
+        throw Error("Missing ID");
+      }
+      return getActivityUser(ID, userID);
+    },
+    enabled: !!data,
+  });
+
+  if (!data || !activityUser) return <Spinner />;
   return (
-    <ActivityProvider activity={data}>
-      <VStack flex={"1 1 auto"}>
+    <ActivityProvider activity={data} activityUser={activityUser}>
+      <VStack>
         <ActivityHeader />
         <Outlet />
       </VStack>
