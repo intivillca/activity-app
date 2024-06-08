@@ -6,8 +6,7 @@ import {
   Input,
   FormErrorMessage,
   Textarea,
-  Button,
-  Box,
+  Center,
 } from "@chakra-ui/react";
 import { TagInput } from "../../global/TagInput";
 import { LocationInput } from "../../global/LocationInput";
@@ -27,16 +26,19 @@ export const ActivitiesFormFields = () => {
   } = useController({ control, name: "tags" });
   const {
     field: { value: img, onChange: onChangeImg },
-  } = useController({ control, name: "img" });
+  } = useController({ control, name: "avatar" });
   const {
     field: { value: location, onChange: onChangeLocation },
   } = useController({ control, name: "location" });
   return (
-    <Box p={4} borderWidth={1} borderRadius="lg">
-      <FormControl isInvalid={!!errors.img} mb={4}>
-        <FormLabel htmlFor="img">{t("activities.form.image")}</FormLabel>
-        <AvatarInput value={img} onChange={onChangeImg} />
-        <FormErrorMessage>{errors.img && errors.img.message}</FormErrorMessage>
+    <>
+      <FormControl isInvalid={!!errors.avatar} mb={4}>
+        <Center>
+          <AvatarInput value={img} onChange={onChangeImg} />
+        </Center>
+        <FormErrorMessage>
+          {errors.avatar && errors.avatar.message}
+        </FormErrorMessage>
       </FormControl>
       <FormControl isInvalid={!!errors.description} mb={4}>
         <FormLabel htmlFor="name">{t("activities.form.name")}</FormLabel>
@@ -67,7 +69,11 @@ export const ActivitiesFormFields = () => {
         <FormLabel htmlFor="startDate">
           {t("activities.form.start_date")}
         </FormLabel>
-        <Input type="date" id="startDate" {...register("startDate")} />
+        <Input
+          type="date"
+          id="startDate"
+          {...register("startDate", { setValueAs: (value) => value || null })}
+        />
         <FormErrorMessage>
           {errors.startDate && errors.startDate.message}
         </FormErrorMessage>
@@ -75,7 +81,11 @@ export const ActivitiesFormFields = () => {
 
       <FormControl isInvalid={!!errors.endDate} mb={4}>
         <FormLabel htmlFor="endDate">{t("activities.form.end_date")}</FormLabel>
-        <Input type="date" id="endDate" {...register("endDate")} />
+        <Input
+          type="date"
+          id="endDate"
+          {...register("endDate", { setValueAs: (value) => value || null })}
+        />
         <FormErrorMessage>
           {errors.endDate && errors.endDate.message}
         </FormErrorMessage>
@@ -104,10 +114,6 @@ export const ActivitiesFormFields = () => {
           {errors.tags && errors.tags.message}
         </FormErrorMessage>
       </FormControl>
-
-      <Button mt={4} colorScheme="teal" isLoading={false} type="submit">
-        {t("activities.form.submit")}
-      </Button>
-    </Box>
+    </>
   );
 };

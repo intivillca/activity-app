@@ -2,8 +2,13 @@ import express from "express";
 import fs from "fs";
 import { routes } from "./routes/routes";
 import { IMAGE_DIR, FILES_DIR, port } from "./config";
+import dotenv from "dotenv";
+import cors from "cors";
+
+dotenv.config({ path: ".env" });
 
 const app = express();
+app.use(cors());
 if (!fs.existsSync(IMAGE_DIR)) fs.mkdirSync(IMAGE_DIR, { recursive: true });
 if (!fs.existsSync(FILES_DIR)) fs.mkdirSync(FILES_DIR, { recursive: true });
 

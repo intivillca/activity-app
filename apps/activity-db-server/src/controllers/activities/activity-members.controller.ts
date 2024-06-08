@@ -16,7 +16,7 @@ export const activityMembersController = async (
       where: {
         activityId: activityIDNum,
       },
-      include: { user: { include: { img: true } } },
+      include: { user: { include: { avatar: true } } },
     });
     if (!activityMembers) {
       return res.status(404).json({ message: "ActivityMembers not found" });

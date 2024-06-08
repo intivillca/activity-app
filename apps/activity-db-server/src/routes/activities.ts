@@ -4,6 +4,7 @@ import { activityGroupsController } from "../controllers/groups/activity-groups.
 import { activityMemberController } from "../controllers/activities/activity-member.controller";
 import { activityMembersController } from "../controllers/activities/activity-members.controller";
 import { patchActivityController } from "../controllers/activities/patchActivity.controller";
+import { createActivityController } from "../controllers/activities/create-activity.controller";
 
 const router = Router();
 const path = "/activities";
@@ -14,5 +15,6 @@ router.get(`${path}/:activityID/members`, activityMembersController);
 router.get(`${path}/:activityID/members/:userID`, activityMemberController);
 
 router.patch(`${path}/:activityID`, patchActivityController);
+router.post(`${path}`, createActivityController);
 
 export { router as activities };

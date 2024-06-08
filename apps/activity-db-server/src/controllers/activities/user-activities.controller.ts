@@ -12,7 +12,7 @@ export const getUserActivitiesController = async (
     }
     const userActivites = await db.activity.findMany({
       where: { members: { some: { userId: parseInt(userId, 10) } } },
-      include: { img: true },
+      include: { avatar: true },
     });
     return res.json({ activities: userActivites });
   } catch (e) {

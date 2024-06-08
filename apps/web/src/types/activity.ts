@@ -1,4 +1,4 @@
-import { Image } from "./image";
+import { UploadedFile } from "./file";
 
 export interface Activity {
   ID: number;
@@ -11,11 +11,17 @@ export interface Activity {
   endDate: string | null;
   location: string | undefined;
   tags: string[];
-  img?: Image;
+  avatar?: UploadedFile;
 }
 
-export type FormActivity = Omit<Activity, "img"> & { img?: File | string };
+export type FormActivity = Omit<Activity, "avatar"> & {
+  avatar?: File | string;
+};
 
 export type PatchActivity = Partial<
   Omit<Activity, "createdAt" | "updatedAt" | "deletedAt" | "img">
+>;
+
+export type PostActivity = Partial<
+  Omit<Activity, "name" | "avatar"> & { name: string; fileId?: number }
 >;

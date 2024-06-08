@@ -1,4 +1,10 @@
-import { PropsWithChildren, createContext, useContext } from "react";
+import {
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { AuthContextValue } from "./types";
 import { useQuery } from "react-query";
 import { getPubkey } from "./auth-routes/pubkey";
@@ -8,23 +14,49 @@ import { Spinner } from "@chakra-ui/react";
 const authContext = createContext<AuthContextValue | null>(null);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
+  const [loading, setLoading] = useState(true);
   const token = window.localStorage.getItem("authToken") ?? "";
-  const { data } = useQuery({
+  const { data, isError } = useQuery({
     queryKey: ["TokenVerification"],
     queryFn: async () => {
       const pubKey = await getPubkey();
-      const verifyKey = await verifyToken(token, pubKey);
-      return verifyKey;
+      return verifyToken(token, pubKey);
+    },
+    onSuccess: () => {
+      setLoading(false);
     },
   });
 
-  if (!data?.payload.userID) {
+  useEffect(() => {
+    if (!data?.payload?.exp) {
+      // No expiration time found in token payload
+      return;
+    }
+
+    const expirationTime = data.payload.exp * 1000; // Convert to milliseconds
+    const currentTime = Date.now();
+
+    if (currentTime > expirationTime) {
+      // Token has expired, clear it from local storage
+      window.localStorage.removeItem("authToken");
+    }
+  }, [data]);
+
+  if (loading) {
     return <Spinner />;
+  }
+
+  if (isError || !data?.payload?.userID) {
+    // Handle token verification errors
+    console.error("Token verification failed");
+    // Perform logout or redirect to login page
+    // return <Redirect to="/login" />;
+    return null;
   }
 
   return (
     <authContext.Provider
-      value={{ isAuthenticated: !!token, userID: data?.payload.userID }}
+      value={{ isAuthenticated: !!token, userID: data.payload.userID }}
     >
       {children}
     </authContext.Provider>

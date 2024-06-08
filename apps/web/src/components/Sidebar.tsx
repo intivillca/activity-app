@@ -2,9 +2,9 @@ import { useQuery } from "react-query";
 import { getActivitiesForUser } from "../api/user-activities/get-activities-for-user";
 import { Divider, Spinner, VStack } from "@chakra-ui/react";
 import { ActivityLink } from "./activities/ActivityLink";
-import { AddActivityButton } from "./activities/AddActivity";
 import { UserGroupsButton } from "./groups/UserGroupsButton";
 import { useAuth } from "../auth/AuthContext";
+import { ActivityCreateModalTrigger } from "./activities/Modal/ModalTrigger";
 
 export const Sidebar = () => {
   const { userID } = useAuth();
@@ -22,7 +22,7 @@ export const Sidebar = () => {
       {data.activities.map((item) => (
         <ActivityLink {...item} key={item.ID} />
       ))}
-      <AddActivityButton />
+      <ActivityCreateModalTrigger />
     </VStack>
   );
 };

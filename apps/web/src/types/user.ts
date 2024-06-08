@@ -1,7 +1,7 @@
-import { Image } from "./image";
+import { UploadedFile } from "./file";
 
 export interface UserBaseData {
   ID: number;
   username: string;
-  img?: Image;
+  avatar?: UploadedFile;
 }

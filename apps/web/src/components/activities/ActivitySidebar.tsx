@@ -1,10 +1,11 @@
 import { AspectRatio, Box, VStack, Image, Text } from "@chakra-ui/react";
 import { useActivityProvider } from "./ActivityCtx";
 import { useTranslation } from "react-i18next";
+import { getMediumImg } from "../../api-file-server/get-medium-img";
 
 export const ActivitySidebar = () => {
   const {
-    activity: { description, name, img },
+    activity: { description, name, avatar },
   } = useActivityProvider();
 
   const { t } = useTranslation("");
@@ -24,12 +25,11 @@ export const ActivitySidebar = () => {
         {name}
       </Box>
       <VStack flex={"1 1 auto"} w="full" overflowY={"auto"}>
-        {img && (
+        {avatar && (
           <AspectRatio ratio={[1, 1, 4 / 3, 16 / 9]} w="full">
             <Image
               objectFit="cover"
-              src={img?.src}
-              alt={img?.imgAlt}
+              src={getMediumImg(avatar.src)}
               overflow={"hidden"}
             />
           </AspectRatio>

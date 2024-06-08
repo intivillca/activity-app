@@ -16,11 +16,12 @@ import { FaCirclePlus } from "react-icons/fa6";
 import { FaLock } from "react-icons/fa";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { getMediumImg } from "../../api-file-server/get-medium-img";
 
 export const GroupCard = ({
   ID,
   description,
-  img,
+  avatar,
   name,
   type,
   tags,
@@ -35,12 +36,11 @@ export const GroupCard = ({
       direction={{ base: "column", sm: "row" }}
       variant="outline"
     >
-      {img && (
+      {avatar && (
         <AspectRatio ratio={[1, 1, 3 / 4, 9 / 16]} flex={"0 1 200px"}>
           <Image
             objectFit="cover"
-            src={img?.src}
-            alt={img?.imgAlt}
+            src={getMediumImg(avatar.src)}
             overflow={"hidden"}
           />
         </AspectRatio>

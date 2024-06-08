@@ -25,7 +25,7 @@ export const ActivityInfoDrawerContent = () => {
       endDate,
       location,
       tags,
-      img,
+      avatar,
       createdAt,
       updatedAt,
     },
@@ -33,7 +33,7 @@ export const ActivityInfoDrawerContent = () => {
 
   return (
     <VStack alignItems={"center"} p={0}>
-      <StaticAvatar imgSrc={img?.src} name={name} />
+      <StaticAvatar imgSrc={avatar?.src} name={name} />
       <Box fontSize={"xl"} fontWeight={"bold"}>
         {name}
       </Box>

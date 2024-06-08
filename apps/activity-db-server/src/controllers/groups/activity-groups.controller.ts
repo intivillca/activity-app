@@ -14,7 +14,7 @@ export const activityGroupsController = async (
     }
     const groups = await db.group.findMany({
       where: { activityId: toNumber },
-      include: { img: true },
+      include: { avatar: true },
     });
     return res.json({ groups });
   } catch (e) {

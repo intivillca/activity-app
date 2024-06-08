@@ -28,7 +28,7 @@ export const ActivityFormInfoDrawerContent = () => {
   const {
     activity: { createdAt, updatedAt },
   } = useActivityProvider();
-  const { field: imgField } = useController({ control, name: "img" });
+  const { field: imgField } = useController({ control, name: "avatar" });
   const { field: nameField } = useController({ control, name: "name" });
   const { field: descField } = useController({ control, name: "description" });
   const { field: startDateField } = useController({

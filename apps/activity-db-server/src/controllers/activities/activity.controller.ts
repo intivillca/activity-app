@@ -28,7 +28,7 @@ export const activityController = async (
 
     const activity = await db.activity.findUnique({
       where: { ID: toNumber },
-      include: { img: true },
+      include: { avatar: true },
     });
     if (!activity) {
       return res.status(404).json({ message: "Activity not found" });

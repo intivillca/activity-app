@@ -1,4 +1,4 @@
-import { Image } from "./image";
+import { UploadedFile } from "./file";
 
 type GroupType = "PUBLIC" | "PRIVATE" | "LOCKED";
 
@@ -16,7 +16,7 @@ export interface Group {
   endDate: string;
   location: string;
   tags: string[];
-  img?: Image;
+  avatar?: UploadedFile;
 }
 
 export type GroupCard = Omit<

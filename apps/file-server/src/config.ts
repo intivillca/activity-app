@@ -1,6 +1,6 @@
 import path from "path";
 
-export const port = process.env.SERVICE_PORT ?? 3005;
+export const port = process.env.SERVICE_PORT ?? 3004;
 
 export const IMAGE_DIR = path.join(__dirname, "public/images");
 export const FILES_DIR = path.join(__dirname, "public/files");

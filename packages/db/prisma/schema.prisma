@@ -1,6 +1,9 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,16 +14,21 @@ datasource db {
 }
 
 model File {
-  ID           Int       @id @default(autoincrement())
+  ID           Int        @id @default(autoincrement())
   src          String
-  createdAt    DateTime  @default(now()) @db.Timestamptz
-  updatedAt    DateTime  @updatedAt @db.Timestamptz
-  deletedAt    DateTime? @db.Timestamptz
-  filename     String
+  createdAt    DateTime   @default(now()) @db.Timestamptz
+  updatedAt    DateTime   @updatedAt @db.Timestamptz
+  deletedAt    DateTime?  @db.Timestamptz
   mime         String
   size         Int
   checksum     String
+  uploadedBy   User       @relation(fields: [uploadedById], references: [ID], name: "uploadedByFile")
   uploadedById Int
+  userAvatars  User[]
+  groupAvatars Group[]
+  attachedTo   Message?   @relation(fields: [attachedToId], references: [ID])
+  attachedToId Int?
+  activities   Activity[]
 
   @@index([uploadedById])
   @@index([mime])
@@ -28,17 +36,23 @@ model File {
 }
 
 model User {
-  ID        Int       @id @default(autoincrement())
-  username  String    @unique
-  email     String    @unique
-  password  String
-  salt      String
-  createdAt DateTime  @default(now()) @db.Timestamptz
-  updatedAt DateTime  @updatedAt @db.Timestamptz
-  deletedAt DateTime? @db.Timestamptz
+  ID                  Int              @id @default(autoincrement())
+  username            String           @unique
+  email               String           @unique
+  password            String
+  salt                String
+  createdAt           DateTime         @default(now()) @db.Timestamptz
+  updatedAt           DateTime         @updatedAt @db.Timestamptz
+  deletedAt           DateTime?        @db.Timestamptz
+  groups              GroupUser[]
+  messages            Message[]
+  activites           ActivityMember[]
+  avatar              File?            @relation(fields: [avatarId], references: [ID])
+  avatarId            Int?
+  filesUploadedByUser File[]           @relation(name: "uploadedByFile")
 
-  @@index([email])
   @@index([username])
+  @@index([email])
 }
 
 enum GroupType {
@@ -48,21 +62,26 @@ enum GroupType {
 }
 
 model Group {
-  ID          Int       @id @default(autoincrement())
-  type        GroupType @default(PUBLIC)
-  name        String    @unique
+  ID          Int         @id @default(autoincrement())
+  type        GroupType   @default(PUBLIC)
+  name        String      @unique
   description String?
   maxSize     Int
-  createdAt   DateTime  @default(now()) @db.Timestamptz
-  updatedAt   DateTime  @updatedAt @db.Timestamptz
-  deletedAt   DateTime? @db.Timestamptz
-  startDate   DateTime? @db.Timestamptz
-  endDate     DateTime? @db.Timestamptz
+  createdAt   DateTime    @default(now()) @db.Timestamptz
+  updatedAt   DateTime    @updatedAt @db.Timestamptz
+  deletedAt   DateTime?   @db.Timestamptz
+  users       GroupUser[]
+  messages    Message[]
+  activity    Activity    @relation(fields: [activityId], references: [ID])
+  activityId  Int
+  startDate   DateTime?   @db.Timestamptz()
+  endDate     DateTime?   @db.Timestamptz()
   location    String
   tags        String[]
+  avatar      File?       @relation(fields: [avatarId], references: [ID])
+  avatarId    Int?
 
   @@index([name])
-  @@index([type])
 }
 
 enum GroupRole {
@@ -73,7 +92,9 @@ enum GroupRole {
 
 model GroupUser {
   ID        Int       @id @default(autoincrement())
+  user      User      @relation(fields: [userId], references: [ID])
   userId    Int
+  group     Group     @relation(fields: [groupId], references: [ID])
   groupId   Int
   createdAt DateTime  @default(now()) @db.Timestamptz
   updatedAt DateTime  @updatedAt @db.Timestamptz
@@ -82,12 +103,13 @@ model GroupUser {
 
   @@unique([userId, groupId])
   @@index([groupId])
-  @@index([userId])
 }
 
 model ActivityMember {
   ID         Int       @id @default(autoincrement())
+  user       User      @relation(fields: [userId], references: [ID])
   userId     Int
+  activity   Activity  @relation(fields: [activityId], references: [ID])
   activityId Int
   createdAt  DateTime  @default(now()) @db.Timestamptz
   updatedAt  DateTime  @updatedAt @db.Timestamptz
@@ -96,18 +118,21 @@ model ActivityMember {
 
   @@unique([userId, activityId])
   @@index([activityId])
-  @@index([userId])
 }
 
 model Message {
-  ID         Int       @id @default(autoincrement())
-  content    String
-  createdAt  DateTime  @default(now()) @db.Timestamptz
-  updatedAt  DateTime  @updatedAt @db.Timestamptz
-  deletedAt  DateTime? @db.Timestamptz
-  senderId   Int
-  groupId    Int?
-  activityId Int?
+  ID          Int       @id @default(autoincrement())
+  content     String
+  createdAt   DateTime  @default(now()) @db.Timestamptz
+  updatedAt   DateTime  @updatedAt @db.Timestamptz
+  deletedAt   DateTime? @db.Timestamptz
+  attachments File[]
+  sender      User      @relation(fields: [senderId], references: [ID])
+  senderId    Int
+  group       Group?    @relation(fields: [groupId], references: [ID])
+  groupId     Int?
+  activity    Activity? @relation(fields: [activityId], references: [ID])
+  activityId  Int?
 
   @@index([senderId])
   @@index([groupId])
@@ -115,18 +140,21 @@ model Message {
 }
 
 model Activity {
-  ID          Int       @id @default(autoincrement())
-  name        String    @unique
+  ID          Int              @id @default(autoincrement())
+  name        String           @unique
   description String?
-  createdAt   DateTime  @default(now()) @db.Timestamptz
-  updatedAt   DateTime  @updatedAt @db.Timestamptz
-  deletedAt   DateTime? @db.Timestamptz
-  startDate   DateTime? @db.Timestamptz
-  endDate     DateTime? @db.Timestamptz
-  location    String
+  createdAt   DateTime         @default(now()) @db.Timestamptz
+  updatedAt   DateTime         @updatedAt @db.Timestamptz
+  deletedAt   DateTime?        @db.Timestamptz
+  startDate   DateTime?        @db.Timestamptz()
+  endDate     DateTime?        @db.Timestamptz()
+  location    String?
   tags        String[]
+  groups      Group[]
+  messages    Message[]
+  members     ActivityMember[]
+  avatar      File?            @relation(fields: [avatarId], references: [ID])
+  avatarId    Int?
 
   @@index([name])
-  @@index([startDate])
-  @@index([endDate])
 }
