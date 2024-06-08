@@ -14,31 +14,47 @@ datasource db {
 }
 
 model Image {
-  ID        Int        @id @default(autoincrement())
-  src       String
-  imgAlt    String
-  createdAt DateTime   @default(now()) @db.Timestamptz
-  updatedAt DateTime   @updatedAt @db.Timestamptz
-  deletedAt DateTime?  @db.Timestamptz
-  user      User[]
-  group     Group[]
-  activity  Activity[]
+  ID           Int          @id @default(autoincrement())
+  src          String
+  imgAlt       String
+  createdAt    DateTime     @default(now()) @db.Timestamptz
+  updatedAt    DateTime     @updatedAt @db.Timestamptz
+  deletedAt    DateTime?    @db.Timestamptz
+  uploadedBy   User         @relation(fields: [uploadedById], references: [ID], name: "uploadedByImage")
+  uploadedById Int
+  user         User[]
+  group        Group[]
+  activity     Activity[]
+  attached     Attachment[]
+}
+
+model File {
+  ID           Int          @id @default(autoincrement())
+  src          String
+  createdAt    DateTime     @default(now()) @db.Timestamptz
+  updatedAt    DateTime     @updatedAt @db.Timestamptz
+  deletedAt    DateTime?    @db.Timestamptz
+  uploadedBy   User         @relation(fields: [uploadedById], references: [ID], name: "uploadedByFiles")
+  uploadedById Int
+  attached     Attachment[]
 }
 
 model User {
-  ID        Int              @id @default(autoincrement())
-  username  String           @unique
-  email     String           @unique
-  password  String
-  salt      String
-  createdAt DateTime         @default(now()) @db.Timestamptz
-  updatedAt DateTime         @updatedAt @db.Timestamptz
-  deletedAt DateTime?        @db.Timestamptz
-  groups    GroupUser[]
-  messages  Message[]
-  activites ActivityMember[]
-  img       Image?           @relation(fields: [imageId], references: [ID])
-  imageId   Int?
+  ID                   Int              @id @default(autoincrement())
+  username             String           @unique
+  email                String           @unique
+  password             String
+  salt                 String
+  createdAt            DateTime         @default(now()) @db.Timestamptz
+  updatedAt            DateTime         @updatedAt @db.Timestamptz
+  deletedAt            DateTime?        @db.Timestamptz
+  groups               GroupUser[]
+  messages             Message[]
+  activites            ActivityMember[]
+  img                  Image?           @relation(fields: [imageId], references: [ID])
+  imageId              Int?
+  imagesUploadedByUser Image[]          @relation(name: "uploadedByImage")
+  filesUploadedByUser  File[]           @relation(name: "uploadedByFiles")
 }
 
 enum GroupType {
@@ -102,15 +118,20 @@ model ActivityMember {
   @@unique([userId, activityId])
 }
 
+enum AttachmentType {
+  FILE
+  IMAGE
+}
+
 model Attachment {
-  ID        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now()) @db.Timestamptz
-  updatedAt DateTime  @updatedAt @db.Timestamptz
-  deletedAt DateTime? @db.Timestamptz
-  src       String
-  mime      String
-  message   Message?  @relation(fields: [messageID], references: [ID])
+  ID        Int            @id @default(autoincrement())
+  message   Message?       @relation(fields: [messageID], references: [ID])
   messageID Int?
+  type      AttachmentType
+  image     Image?         @relation(fields: [imageID], references: [ID])
+  imageID   Int?
+  file      File?          @relation(fields: [fileID], references: [ID])
+  fileID    Int?
 }
 
 model Message {
