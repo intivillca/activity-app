@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,48 +10,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Image {
-  ID           Int          @id @default(autoincrement())
-  src          String
-  imgAlt       String
-  createdAt    DateTime     @default(now()) @db.Timestamptz
-  updatedAt    DateTime     @updatedAt @db.Timestamptz
-  deletedAt    DateTime?    @db.Timestamptz
-  uploadedBy   User         @relation(fields: [uploadedById], references: [ID], name: "uploadedByImage")
-  uploadedById Int
-  user         User[]
-  group        Group[]
-  activity     Activity[]
-  attached     Attachment[]
-}
-
 model File {
-  ID           Int          @id @default(autoincrement())
+  ID           Int       @id @default(autoincrement())
   src          String
-  createdAt    DateTime     @default(now()) @db.Timestamptz
-  updatedAt    DateTime     @updatedAt @db.Timestamptz
-  deletedAt    DateTime?    @db.Timestamptz
-  uploadedBy   User         @relation(fields: [uploadedById], references: [ID], name: "uploadedByFiles")
+  createdAt    DateTime  @default(now()) @db.Timestamptz
+  updatedAt    DateTime  @updatedAt @db.Timestamptz
+  deletedAt    DateTime? @db.Timestamptz
+  filename     String
+  mime         String
+  size         Int
+  checksum     String
   uploadedById Int
-  attached     Attachment[]
+
+  @@index([uploadedById])
+  @@index([mime])
+  @@index([createdAt])
 }
 
 model User {
-  ID                   Int              @id @default(autoincrement())
-  username             String           @unique
-  email                String           @unique
-  password             String
-  salt                 String
-  createdAt            DateTime         @default(now()) @db.Timestamptz
-  updatedAt            DateTime         @updatedAt @db.Timestamptz
-  deletedAt            DateTime?        @db.Timestamptz
-  groups               GroupUser[]
-  messages             Message[]
-  activites            ActivityMember[]
-  img                  Image?           @relation(fields: [imageId], references: [ID])
-  imageId              Int?
-  imagesUploadedByUser Image[]          @relation(name: "uploadedByImage")
-  filesUploadedByUser  File[]           @relation(name: "uploadedByFiles")
+  ID        Int       @id @default(autoincrement())
+  username  String    @unique
+  email     String    @unique
+  password  String
+  salt      String
+  createdAt DateTime  @default(now()) @db.Timestamptz
+  updatedAt DateTime  @updatedAt @db.Timestamptz
+  deletedAt DateTime? @db.Timestamptz
+
+  @@index([email])
+  @@index([username])
 }
 
 enum GroupType {
@@ -64,24 +48,21 @@ enum GroupType {
 }
 
 model Group {
-  ID          Int         @id @default(autoincrement())
-  type        GroupType   @default(PUBLIC)
-  name        String      @unique
+  ID          Int       @id @default(autoincrement())
+  type        GroupType @default(PUBLIC)
+  name        String    @unique
   description String?
   maxSize     Int
-  createdAt   DateTime    @default(now()) @db.Timestamptz
-  updatedAt   DateTime    @updatedAt @db.Timestamptz
-  deletedAt   DateTime?   @db.Timestamptz
-  users       GroupUser[]
-  messages    Message[]
-  activity    Activity    @relation(fields: [activityId], references: [ID])
-  activityId  Int
-  startDate   DateTime?   @db.Timestamptz()
-  endDate     DateTime?   @db.Timestamptz()
+  createdAt   DateTime  @default(now()) @db.Timestamptz
+  updatedAt   DateTime  @updatedAt @db.Timestamptz
+  deletedAt   DateTime? @db.Timestamptz
+  startDate   DateTime? @db.Timestamptz
+  endDate     DateTime? @db.Timestamptz
   location    String
   tags        String[]
-  img         Image?      @relation(fields: [imageId], references: [ID])
-  imageId     Int?
+
+  @@index([name])
+  @@index([type])
 }
 
 enum GroupRole {
@@ -92,9 +73,7 @@ enum GroupRole {
 
 model GroupUser {
   ID        Int       @id @default(autoincrement())
-  user      User      @relation(fields: [userId], references: [ID])
   userId    Int
-  group     Group     @relation(fields: [groupId], references: [ID])
   groupId   Int
   createdAt DateTime  @default(now()) @db.Timestamptz
   updatedAt DateTime  @updatedAt @db.Timestamptz
@@ -102,13 +81,13 @@ model GroupUser {
   groupRole GroupRole @default(MEMBER)
 
   @@unique([userId, groupId])
+  @@index([groupId])
+  @@index([userId])
 }
 
 model ActivityMember {
   ID         Int       @id @default(autoincrement())
-  user       User      @relation(fields: [userId], references: [ID])
   userId     Int
-  activity   Activity  @relation(fields: [activityId], references: [ID])
   activityId Int
   createdAt  DateTime  @default(now()) @db.Timestamptz
   updatedAt  DateTime  @updatedAt @db.Timestamptz
@@ -116,53 +95,38 @@ model ActivityMember {
   groupRole  GroupRole @default(MEMBER)
 
   @@unique([userId, activityId])
-}
-
-enum AttachmentType {
-  FILE
-  IMAGE
-}
-
-model Attachment {
-  ID        Int            @id @default(autoincrement())
-  message   Message?       @relation(fields: [messageID], references: [ID])
-  messageID Int?
-  type      AttachmentType
-  image     Image?         @relation(fields: [imageID], references: [ID])
-  imageID   Int?
-  file      File?          @relation(fields: [fileID], references: [ID])
-  fileID    Int?
+  @@index([activityId])
+  @@index([userId])
 }
 
 model Message {
-  ID          Int          @id @default(autoincrement())
-  content     String
-  createdAt   DateTime     @default(now()) @db.Timestamptz
-  updatedAt   DateTime     @updatedAt @db.Timestamptz
-  deletedAt   DateTime?    @db.Timestamptz
-  attachments Attachment[] // Links to distant web for attachments
-  sender      User         @relation(fields: [senderId], references: [ID])
-  senderId    Int
-  group       Group?       @relation(fields: [groupId], references: [ID])
-  groupId     Int?
-  activity    Activity?    @relation(fields: [activityId], references: [ID])
-  activityId  Int?
+  ID         Int       @id @default(autoincrement())
+  content    String
+  createdAt  DateTime  @default(now()) @db.Timestamptz
+  updatedAt  DateTime  @updatedAt @db.Timestamptz
+  deletedAt  DateTime? @db.Timestamptz
+  senderId   Int
+  groupId    Int?
+  activityId Int?
+
+  @@index([senderId])
+  @@index([groupId])
+  @@index([activityId])
 }
 
 model Activity {
-  ID          Int              @id @default(autoincrement())
-  name        String           @unique
+  ID          Int       @id @default(autoincrement())
+  name        String    @unique
   description String?
-  createdAt   DateTime         @default(now()) @db.Timestamptz
-  updatedAt   DateTime         @updatedAt @db.Timestamptz
-  deletedAt   DateTime?        @db.Timestamptz
-  startDate   DateTime?        @db.Timestamptz()
-  endDate     DateTime?        @db.Timestamptz()
+  createdAt   DateTime  @default(now()) @db.Timestamptz
+  updatedAt   DateTime  @updatedAt @db.Timestamptz
+  deletedAt   DateTime? @db.Timestamptz
+  startDate   DateTime? @db.Timestamptz
+  endDate     DateTime? @db.Timestamptz
   location    String
   tags        String[]
-  groups      Group[]
-  messages    Message[]
-  members     ActivityMember[]
-  img         Image?           @relation(fields: [imageId], references: [ID])
-  imageId     Int?
+
+  @@index([name])
+  @@index([startDate])
+  @@index([endDate])
 }
