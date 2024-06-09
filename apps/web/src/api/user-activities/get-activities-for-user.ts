@@ -1,16 +1,13 @@
-import { Activity } from "../../types/activity";
+import { UserActivities } from "../../types/user";
 import { api } from "../api";
 
 interface Params {
   userID: number | string;
 }
-interface ApiResponse {
-  activities: Activity[];
-}
 
 export const getActivitiesForUser = async ({
   userID,
-}: Params): Promise<ApiResponse> => {
-  const { data } = await api.get<ApiResponse>(`/user-activities/${userID}`);
+}: Params): Promise<UserActivities> => {
+  const { data } = await api.get<UserActivities>(`/user-activities/${userID}`);
   return data;
 };

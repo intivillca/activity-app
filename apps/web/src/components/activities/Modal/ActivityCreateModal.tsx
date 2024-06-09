@@ -25,7 +25,7 @@ export const ActivityCreateModal = ({ onClose }: Props) => {
       scrollBehavior="inside"
     >
       <ModalOverlay />
-      <ActivitiesFormWrapper>
+      <ActivitiesFormWrapper onClose={onClose}>
         <ModalHeader>{t("activities.add_activity")}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>

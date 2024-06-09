@@ -5,7 +5,14 @@ import { postActivity } from "../../../api/activities/postActivity";
 import { FormActivity } from "../../../types/activity";
 import lodash from "lodash";
 import { createFile } from "../../../api/file/createFile";
-export const ActivitiesFormWrapper = ({ children }: PropsWithChildren) => {
+import { handleNewActivity } from "../../../events/activity-events";
+interface Props {
+  onClose: () => void;
+}
+export const ActivitiesFormWrapper = ({
+  children,
+  onClose,
+}: PropsWithChildren<Props>) => {
   const methods = useForm<FormActivity>();
   return (
     <FormProvider {...methods}>
@@ -22,10 +29,12 @@ export const ActivitiesFormWrapper = ({ children }: PropsWithChildren) => {
             }
           }
           const formattedData = lodash.omit(data, ["avatar"]);
-          await postActivity({
+          const newData = await postActivity({
             ...formattedData,
             avatarId,
           });
+          handleNewActivity(newData);
+          onClose();
         })}
       >
         {children}
