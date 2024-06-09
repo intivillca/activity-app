@@ -43,6 +43,7 @@ const createActivity = async (activity: PostActivity) => {
         ...activity,
         tags: activity.tags ?? [],
       },
+      include: { avatar: true },
     });
     return newData;
   } catch (e) {
