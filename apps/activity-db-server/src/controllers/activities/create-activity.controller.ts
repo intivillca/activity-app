@@ -29,7 +29,7 @@ export const createActivityController = async (req: Request, res: Response) => {
     if (!newUser) {
       return res.status(500).json({ message: "Failed to create user" });
     }
-    return res.json({ activity: newData });
+    return res.json(newData);
   } catch (e) {
     console.error("Error patching activity", e);
     return res.status(500).json({ error: "Internal server error" });
