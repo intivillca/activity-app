@@ -7,5 +7,5 @@ export const postActivitySchema = z.object({
   endDate: z.string().datetime().optional().nullable(),
   location: z.string().optional().nullable(),
   tags: z.string().array().optional(),
-  fileId: z.number().optional(),
+  avatarId: z.number().optional(),
 });

@@ -21,34 +21,47 @@ export const createActivityController = async (req: Request, res: Response) => {
     if (!validData) {
       return res.status(400).json({ message: "Data is invalid" });
     }
-    const omitFileId = lodash.omit(validData, ["fileId"]);
-    try {
-      const newData = await db.activity.create({
-        data: {
-          ...omitFileId,
-          tags: validData.tags ?? [],
-          avatarId: validData.fileId,
-        },
-      });
-      try {
-        await db.activityMember.create({
-          data: {
-            activityId: newData.ID,
-            userId: userIDToNumber,
-            groupRole: "ADMIN",
-          },
-        });
-      } catch (e) {
-        return res
-          .status(500)
-          .json({ message: "Failed to create new activity member" });
-      }
-      return res.json({ activity: newData });
-    } catch (e) {
-      return res.status(500).json({ message: "Failed to create new activity" });
+    const newData = await createActivity(validData);
+    if (!newData) {
+      return res.status(500).json({ message: "Failed to create activity" });
     }
+    const newUser = await createActivityUser(newData.ID, userIDToNumber);
+    if (!newUser) {
+      return res.status(500).json({ message: "Failed to create user" });
+    }
+    return res.json({ activity: newData });
   } catch (e) {
     console.error("Error patching activity", e);
     return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+const createActivity = async (activity: PostActivity) => {
+  try {
+    const newData = await db.activity.create({
+      data: {
+        ...activity,
+        tags: activity.tags ?? [],
+      },
+    });
+    return newData;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+};
+
+const createActivityUser = async (activityID: number, userID: number) => {
+  try {
+    const data = await db.activityMember.create({
+      data: {
+        activityId: activityID,
+        userId: userID,
+        groupRole: "ADMIN",
+      },
+    });
+    return data;
+  } catch (e) {
+    return null;
   }
 };

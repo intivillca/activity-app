@@ -23,5 +23,5 @@ export type PatchActivity = Partial<
 >;
 
 export type PostActivity = Partial<
-  Omit<Activity, "name" | "avatar"> & { name: string; fileId?: number }
+  Omit<Activity, "name" | "avatar"> & { name: string; avatarId?: number }
 >;

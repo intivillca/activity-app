@@ -5,5 +5,5 @@ export interface PostActivity {
   endDate?: string | null;
   location?: string | null;
   tags?: string[] | null;
-  fileId?: number | null;
+  avatarId?: number | null;
 }
