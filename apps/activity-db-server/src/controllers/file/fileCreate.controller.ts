@@ -18,21 +18,23 @@ export const fileCreateController = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Data is invalid" });
     }
 
-    const file = await db.file.create({
-      data: {
-        checksum: validData.checksum,
-        mime: validData.mimeType,
-        size: validData.fileSize,
-        src: validData.original,
-        uploadedById: userIDToNumber,
-      },
-    });
-    if (!file) {
-      res.status(500).json({ message: "Failed to create file" });
+    try {
+      const file = await db.file.create({
+        data: {
+          checksum: validData.checksum,
+          mimeType: validData.mimeType,
+          size: validData.fileSize,
+          src: validData.original,
+          uploadedById: userIDToNumber,
+          fileName: validData.fileName,
+        },
+      });
+      return res.json({ fileId: file.ID });
+    } catch (e) {
+      return res.status(500).json({ message: "Failed to create file" });
     }
-    return res.json({ fileId: file.ID });
   } catch (e) {
-    console.error("Error patching activity", e);
+    console.error("Error creating file", e);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
