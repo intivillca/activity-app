@@ -8,7 +8,6 @@ import {
   DrawerFooter,
   DrawerProps,
   Spinner,
-  Button,
   VStack,
 } from "@chakra-ui/react";
 import { useQuery } from "react-query";
@@ -17,7 +16,7 @@ import { getActivityUsers } from "../../../api/activities/getActivityUsers";
 import { useTranslation } from "react-i18next";
 import { Member } from "./Member";
 import { useActivityProvider } from "../ActivityCtx";
-import { FaPaperPlane } from "react-icons/fa";
+import { MemberInvite } from "./MemberInvite";
 
 interface Props extends Omit<DrawerProps, "isOpen" | "children"> {
   activityID: ID;
@@ -64,9 +63,7 @@ export const MemberDrawer = ({ activityID, ...props }: Props) => {
 
         {groupRole === "ADMIN" && (
           <DrawerFooter justifyContent={"center"}>
-            <Button colorScheme={"green"} leftIcon={<FaPaperPlane />}>
-              {t("activities.invite_members")}
-            </Button>
+            <MemberInvite />
           </DrawerFooter>
         )}
       </DrawerContent>

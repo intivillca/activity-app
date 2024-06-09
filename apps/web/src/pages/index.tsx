@@ -7,6 +7,7 @@ import { Activities } from "./Activites";
 import { ActivitiesWrapper } from "../components/activities/ActivitesWrapper";
 import { AddActivity } from "./AddActivity";
 import { AuthProvider } from "../auth/AuthContext";
+import { Invite } from "./Invite";
 
 export const AppRoutes = () => {
   return (
@@ -27,6 +28,7 @@ export const AppRoutes = () => {
                 path="/"
                 element={<>{"router successfuly configured"}</>}
               />
+              <Route path="/invite/:ID" element={<Invite />} />
               <Route path="/activities/create" element={<AddActivity />} />
               <Route element={<ActivitiesWrapper />}>
                 <Route path="/activities/:ID" element={<Activities />} />

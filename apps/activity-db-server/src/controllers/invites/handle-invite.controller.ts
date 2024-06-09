@@ -14,7 +14,7 @@ export const handleInviteController = async (
   if (!invite) {
     return res.status(404).json({ message: "Invite was not foud" });
   }
-  const activityMember = createActivityMember(userID, invite.activityID);
+  const activityMember = await createActivityMember(userID, invite.activityID);
   if (!activityMember) {
     return res
       .status(500)
@@ -38,9 +38,40 @@ export const handleInviteController = async (
     }
     groupMember = groupMemberf;
   }
-  return res.json({ activityMember, groupMember });
+
+  const activityAndGroup = await getActivityAndGroup(
+    activityMember.activityId,
+    groupMember?.groupId
+  );
+  if (!activityAndGroup) {
+    return res
+      .status(500)
+      .json({ message: "Failed to fetch activity or group" });
+  }
+  return res.json(activityAndGroup);
 };
 
+const getActivityAndGroup = async (activityID: number, groupID?: number) => {
+  const activity = await db.activity.findUnique({
+    where: { ID: activityID },
+    include: { avatar: true },
+  });
+  if (!activity) {
+    return null;
+  }
+  let group = undefined;
+  if (groupID) {
+    const groupf = await db.group.findUnique({
+      where: { ID: groupID },
+      include: { avatar: true },
+    });
+    if (!groupf) {
+      return null;
+    }
+    group = groupf;
+  }
+  return { activity, group };
+};
 const createActivityMember = async (userID: number, activityID: number) => {
   try {
     const activityMember = await db.activityMember.create({
