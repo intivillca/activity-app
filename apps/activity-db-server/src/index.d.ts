@@ -2,7 +2,7 @@
 import "express";
 
 interface Locals {
-  userID: string;
+  userID: number;
 }
 
 declare module "express" {

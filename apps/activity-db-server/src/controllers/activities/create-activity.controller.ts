@@ -2,17 +2,11 @@ import { db } from "@activityapp/db";
 import { Request, Response } from "express";
 import { PostActivity } from "../../interfaces/activity";
 import { postActivitySchema } from "../../schemas/createActivitySchema";
-import { parseID } from "../../utils/parseID";
 import { validateAndFilterData } from "../../utils/validateAndFilterData";
-import lodash from "lodash";
 
 export const createActivityController = async (req: Request, res: Response) => {
   try {
-    const user = res.locals.userID as number;
-    const userIDToNumber = parseID(user);
-    if (!userIDToNumber) {
-      return res.status(400).json({ message: "ID must be a number" });
-    }
+    const userID = res.locals.userID as number;
     const validData = validateAndFilterData(
       req.body,
       postActivitySchema
@@ -25,7 +19,7 @@ export const createActivityController = async (req: Request, res: Response) => {
     if (!newData) {
       return res.status(500).json({ message: "Failed to create activity" });
     }
-    const newUser = await createActivityUser(newData.ID, userIDToNumber);
+    const newUser = await createActivityUser(newData.ID, userID);
     if (!newUser) {
       return res.status(500).json({ message: "Failed to create user" });
     }

@@ -4,6 +4,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { getPublicKeys } from "./public-key.middleware";
 import { jwk2pem } from "pem-jwk";
+import { parseID } from "../utils/parseID";
 
 interface JWTPayload {
   userID: string;
@@ -38,7 +39,7 @@ export function authMiddleware(
       return res.status(401).json({ error: "Unauthorized: Token has expired" });
     }
     if (decodedToken) {
-      res.locals.userID = decodedToken.userID;
+      res.locals.userID = parseID(decodedToken.userID) as number;
       next();
     }
   } catch (err) {

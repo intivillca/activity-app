@@ -38,20 +38,21 @@ model File {
 }
 
 model User {
-  ID                  Int              @id @default(autoincrement())
-  username            String           @unique
-  email               String           @unique
-  password            String
-  salt                String
-  createdAt           DateTime         @default(now()) @db.Timestamptz
-  updatedAt           DateTime         @updatedAt @db.Timestamptz
-  deletedAt           DateTime?        @db.Timestamptz
-  groups              GroupUser[]
-  messages            Message[]
-  activites           ActivityMember[]
-  avatar              File?            @relation(fields: [avatarId], references: [ID])
-  avatarId            Int?
-  filesUploadedByUser File[]           @relation(name: "uploadedByFile")
+  ID                   Int              @id @default(autoincrement())
+  username             String           @unique
+  email                String           @unique
+  password             String
+  salt                 String
+  createdAt            DateTime         @default(now()) @db.Timestamptz
+  updatedAt            DateTime         @updatedAt @db.Timestamptz
+  deletedAt            DateTime?        @db.Timestamptz
+  groups               GroupUser[]
+  messages             Message[]
+  activites            ActivityMember[]
+  avatar               File?            @relation(fields: [avatarId], references: [ID])
+  avatarId             Int?
+  filesUploadedByUser  File[]           @relation(name: "uploadedByFile")
+  invitesCreatedByUser Invite[]
 
   @@index([username])
   @@index([email])
@@ -82,6 +83,7 @@ model Group {
   tags        String[]
   avatar      File?       @relation(fields: [avatarId], references: [ID])
   avatarId    Int?
+  invites     Invite[]
 
   @@index([name])
 }
@@ -157,6 +159,20 @@ model Activity {
   members     ActivityMember[]
   avatar      File?            @relation(fields: [avatarId], references: [ID])
   avatarId    Int?
+  invites     Invite[]
 
   @@index([name])
+}
+
+model Invite {
+  ID              String    @id @default(uuid()) @db.Uuid()
+  createdAt       DateTime  @default(now()) @db.Timestamptz
+  updatedAt       DateTime  @updatedAt @db.Timestamptz
+  deletedAt       DateTime? @db.Timestamptz
+  group           Group?    @relation(fields: [groupId], references: [ID])
+  groupId         Int?
+  activity        Activity  @relation(fields: [activityID], references: [ID])
+  activityID      Int
+  createdBy       User      @relation(fields: [createdByUserID], references: [ID])
+  createdByUserID Int
 }
