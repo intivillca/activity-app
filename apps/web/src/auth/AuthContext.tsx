@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { getPubkey } from "./auth-routes/pubkey";
 import { verifyToken } from "./verifyToken";
 import { Navigate } from "react-router-dom";
+import { Spinner } from "@chakra-ui/react";
 
 const authContext = createContext<AuthContextValue | null>(null);
 
@@ -20,18 +21,23 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   });
 
   useEffect(() => {
-    if (!data) {
+    if (isError) {
       window.localStorage.removeItem("authToken");
     }
-  }, [data]);
+  }, [isError]);
 
-  if (isError || !data?.payload?.userID) {
+  if (isError) {
     return <Navigate to={"/login"} replace />;
   }
-
+  if (!data) {
+    return <Spinner />;
+  }
   return (
     <authContext.Provider
-      value={{ isAuthenticated: !!token, userID: data.payload.userID }}
+      value={{
+        isAuthenticated: !!token,
+        userID: data.payload.userID as string,
+      }}
     >
       {children}
     </authContext.Provider>
