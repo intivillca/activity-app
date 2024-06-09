@@ -1,4 +1,4 @@
-import { UploadedFile } from "./file";
+import { UploadedFile, UploadImageData } from "./file";
 
 export interface Activity {
   ID: number;
@@ -15,7 +15,7 @@ export interface Activity {
 }
 
 export type FormActivity = Omit<Activity, "avatar"> & {
-  avatar?: File | string;
+  avatar?: UploadImageData | UploadedFile;
 };
 
 export type PatchActivity = Partial<
