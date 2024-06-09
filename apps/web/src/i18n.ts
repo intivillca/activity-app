@@ -12,6 +12,7 @@ i18n.use(initReactI18next).init({
   interpolation: {
     escapeValue: false,
   },
+  returnObjects: true,
   react: {
     useSuspense: true,
   },
