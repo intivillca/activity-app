@@ -4,5 +4,5 @@ export const getMediumImg = (imgSrc?: string) => {
   if (!imgSrc) {
     return undefined;
   }
-  return `${baseURL}/images/${imgSrc}/medium`;
+  return `${baseURL}/${imgSrc}/medium`;
 };

@@ -52,6 +52,7 @@ const ActivityInfoFormDrawer = ({ onClose, ...rest }: Props) => {
   const methods = useForm<FormActivity>({
     defaultValues: { ...activity, avatar: activity.avatar?.src },
   });
+  console.log(activity.avatar?.src);
   const onSubmit = useCallback(
     async (data: FormActivity) => {
       console.log(data);

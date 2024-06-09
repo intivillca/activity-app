@@ -23,8 +23,6 @@ export const handleImage = async (file: Express.Multer.File) => {
   const originalFilePath: string = path.join(imageSubfolder, `original.webp`);
   await sharp(filePath).webp({ quality: 100 }).toFile(originalFilePath);
 
-  fs.unlinkSync(filePath);
-
   const imageVariants = await processImage(originalFilePath, imageSubfolder);
 
   const response = {
