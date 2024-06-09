@@ -22,29 +22,31 @@ export const createActivityController = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Data is invalid" });
     }
     const omitFileId = lodash.omit(validData, ["fileId"]);
-    const newData = await db.activity.create({
-      data: {
-        ...omitFileId,
-        tags: validData.tags ?? [],
-        avatarId: validData.fileId,
-      },
-    });
-    if (!newData) {
+    try {
+      const newData = await db.activity.create({
+        data: {
+          ...omitFileId,
+          tags: validData.tags ?? [],
+          avatarId: validData.fileId,
+        },
+      });
+      try {
+        await db.activityMember.create({
+          data: {
+            activityId: newData.ID,
+            userId: userIDToNumber,
+            groupRole: "ADMIN",
+          },
+        });
+      } catch (e) {
+        return res
+          .status(500)
+          .json({ message: "Failed to create new activity member" });
+      }
+      return res.json({ activity: newData });
+    } catch (e) {
       return res.status(500).json({ message: "Failed to create new activity" });
     }
-    const newMember = await db.activityMember.create({
-      data: {
-        activityId: newData.ID,
-        userId: userIDToNumber,
-        groupRole: "ADMIN",
-      },
-    });
-    if (!newMember) {
-      return res
-        .status(500)
-        .json({ message: "Failed to create new activity member" });
-    }
-    return res.json({ activity: newData });
   } catch (e) {
     console.error("Error patching activity", e);
     return res.status(500).json({ error: "Internal server error" });
