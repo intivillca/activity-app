@@ -19,9 +19,10 @@ model File {
   createdAt    DateTime   @default(now()) @db.Timestamptz
   updatedAt    DateTime   @updatedAt @db.Timestamptz
   deletedAt    DateTime?  @db.Timestamptz
-  mime         String
+  mimeType     String
   size         Int
   checksum     String
+  fileName     String
   uploadedBy   User       @relation(fields: [uploadedById], references: [ID], name: "uploadedByFile")
   uploadedById Int
   userAvatars  User[]
@@ -31,8 +32,9 @@ model File {
   activities   Activity[]
 
   @@index([uploadedById])
-  @@index([mime])
+  @@index([mimeType])
   @@index([createdAt])
+  @@index([fileName])
 }
 
 model User {
