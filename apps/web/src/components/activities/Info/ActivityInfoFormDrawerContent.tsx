@@ -21,7 +21,6 @@ import { EditableTagInput } from "../../global/EditableTags";
 import { useController, useFormContext } from "react-hook-form";
 import { FormActivity } from "../../../types/activity";
 import { useActivityProvider } from "../ActivityCtx";
-import { getMediumImg } from "../../../api-file-server/get-medium-img";
 
 export const ActivityFormInfoDrawerContent = () => {
   const { t } = useTranslation();
@@ -45,11 +44,7 @@ export const ActivityFormInfoDrawerContent = () => {
         onChange={(file) => {
           imgField.onChange(file);
         }}
-        value={
-          typeof imgField.value === "string"
-            ? getMediumImg(imgField.value)
-            : imgField.value
-        }
+        value={imgField.value}
       />
       <EditableTextField
         editableProps={{ fontSize: "xl", fontWeight: "bold" }}

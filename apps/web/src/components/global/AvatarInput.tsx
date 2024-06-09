@@ -1,39 +1,43 @@
-import React, { ChangeEvent, useCallback, useState } from "react";
+import React, { ChangeEvent, useCallback } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
 import { Avatar, AvatarBadge, Box } from "@chakra-ui/react";
 import { FaFile } from "react-icons/fa";
-
+import { uploadFile } from "../../api-file-server/upload-file";
+import { UploadData, UploadedFile, UploadImageData } from "../../types/file";
+import { getAvatar } from "../../api-file-server/get-avatar";
 interface FileInputProps {
-  onChange: (file: File | string | null) => void;
-  value?: File | string | null;
+  onChange: (file: UploadImageData | null) => void;
+  value?: UploadImageData | UploadedFile | null;
 }
 
 export const AvatarInput = ({ onChange, value }: FileInputProps) => {
-  const [uploadedFile, setUploadedFile] = useState<{
-    file: File | null;
-    preview: string;
-  } | null>(
-    value && typeof value === "object"
-      ? { file: value, preview: URL.createObjectURL(value) }
-      : value && typeof value === "string"
-        ? { file: null, preview: value }
-        : null
-  );
+  const handleFileUpload = async (file: File) => {
+    try {
+      const uploadResponse: UploadData = await uploadFile(file);
+
+      return uploadResponse;
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+  };
+  const handleFile = useCallback(async (files?: File[] | FileList | null) => {
+    if (!files || files.length <= 0) {
+      return null;
+    }
+    const file = files[0];
+    const uploadedFile = await handleFileUpload(file);
+    if (!uploadedFile || (uploadedFile && uploadedFile.type !== "image")) {
+      return null;
+    }
+    return uploadedFile;
+  }, []);
 
   const onDrop = useCallback(
-    (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
-      // Only handle the first accepted file
-      if (acceptedFiles.length > 0) {
-        const file = acceptedFiles[0];
-        onChange(file);
-        // Update uploaded file state with file preview
-        setUploadedFile({
-          file,
-          preview: URL.createObjectURL(file),
-        });
-      }
+    async (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
+      const file = await handleFile(acceptedFiles);
+      onChange(file);
     },
-    [onChange]
+    [handleFile, onChange]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -41,17 +45,21 @@ export const AvatarInput = ({ onChange, value }: FileInputProps) => {
     multiple: false,
   });
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const fileList = event.target.files;
-    if (fileList && fileList.length > 0) {
-      const file = fileList[0];
-      onChange(file);
-      // Update uploaded file state with file preview
-      setUploadedFile({
-        file,
-        preview: URL.createObjectURL(file),
-      });
+  const handleInputChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = await handleFile(event.target.files);
+    onChange(file);
+  };
+
+  const getAvatarLink = (
+    value: UploadImageData | UploadedFile | null | undefined
+  ) => {
+    if (!value) {
+      return undefined;
     }
+    if ("src" in value) {
+      return getAvatar(value.src);
+    }
+    return getAvatar(value.original);
   };
 
   return (
@@ -60,7 +68,7 @@ export const AvatarInput = ({ onChange, value }: FileInputProps) => {
         <input {...getInputProps()} />
         <Avatar
           size={"2xl"}
-          src={uploadedFile?.preview}
+          src={getAvatarLink(value)}
           borderWidth={"6px"}
           borderStyle={isDragActive ? "dashed" : "none"}
         >
@@ -71,6 +79,7 @@ export const AvatarInput = ({ onChange, value }: FileInputProps) => {
       </div>
       <input
         type="file"
+        accept="image/*"
         onChange={handleInputChange}
         style={{ display: "none" }}
       />
