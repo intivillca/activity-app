@@ -54,7 +54,7 @@ export const ChatContainer = () => {
           />
         ))}
       </VStack>
-      <Box flex={"1 0 80px"} w="full">
+      <Box flex={"1 0 80px"} w="full" display={"flex"} flexDir={"column"}>
         <ChatInput />
       </Box>
     </VStack>

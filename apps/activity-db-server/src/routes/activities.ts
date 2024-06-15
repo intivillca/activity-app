@@ -5,6 +5,7 @@ import { activityMemberController } from "../controllers/activities/activity-mem
 import { activityMembersController } from "../controllers/activities/activity-members.controller";
 import { patchActivityController } from "../controllers/activities/patchActivity.controller";
 import { createActivityController } from "../controllers/activities/create-activity.controller";
+import { postActivitiyMessageController } from "../controllers/activities/post-activity-message.controller";
 
 const router = Router();
 const path = "/activities";
@@ -16,5 +17,6 @@ router.get(`${path}/:activityID/members/:userID`, activityMemberController);
 
 router.patch(`${path}/:activityID`, patchActivityController);
 router.post(`${path}`, createActivityController);
+router.post(`${path}/:activityID/message`, postActivitiyMessageController);
 
 export { router as activities };

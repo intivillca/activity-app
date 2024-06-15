@@ -21,6 +21,7 @@ __metadata:
     "@types/node": "npm:^18.6.3"
     "@types/node-schedule": "npm:^2.1.0"
     "@types/pem-jwk": "npm:^2.0.2"
+    "@types/socket.io-client": "npm:^3.0.0"
     axios: "npm:^1.6.8"
     bcrypt: "npm:^5.1.1"
     cookie-parser: "npm:^1.4.6"
@@ -32,6 +33,7 @@ __metadata:
     nodemon: "npm:^2.0.19"
     passport: "npm:^0.7.0"
     pem-jwk: "npm:^2.0.0"
+    socket.io-client: "npm:^4.7.5"
     ts-node: "npm:^10.9.1"
     typescript: "npm:^4.7.4"
     winston: "npm:^3.13.0"
@@ -104,6 +106,12 @@ __metadata:
     ts-node: "npm:^10.9.2"
     typescript: "npm:^5.4.5"
     uuid: "npm:^9.0.1"
+  languageName: unknown
+  linkType: soft
+
+"@activityapp/io@workspace:packages/io":
+  version: 0.0.0-use.local
+  resolution: "@activityapp/io@workspace:packages/io"
   languageName: unknown
   linkType: soft
 
@@ -194,6 +202,7 @@ __metadata:
     "@types/react": "npm:^18.3.1"
     "@types/react-datepicker": "npm:^6.2.0"
     "@types/react-dom": "npm:^18.3.0"
+    "@types/react-file-icon": "npm:^1"
     "@types/react-i18next": "npm:^8.1.0"
     "@types/react-icons": "npm:^3.0.0"
     "@types/react-query": "npm:^1.2.9"
@@ -212,6 +221,7 @@ __metadata:
     react-datepicker: "npm:^6.9.0"
     react-dom: "npm:^18.3.1"
     react-dropzone: "npm:^14.2.3"
+    react-file-icon: "npm:^1.5.0"
     react-hook-form: "npm:^7.51.4"
     react-i18next: "npm:^14.1.1"
     react-icons: "npm:^5.2.1"
@@ -5413,6 +5423,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-file-icon@npm:^1":
+  version: 1.0.4
+  resolution: "@types/react-file-icon@npm:1.0.4"
+  dependencies:
+    "@types/react": "npm:*"
+  checksum: 10c0/05d93baa03f99048a657be45e432012ac15b501cd94f1637cfc33cd5e47e75e9dc26633d776f13d51c6dc20024cccf7c70cbcdbceccf5758271f69ab295eee96
+  languageName: node
+  linkType: hard
+
 "@types/react-i18next@npm:^8.1.0":
   version: 8.1.0
   resolution: "@types/react-i18next@npm:8.1.0"
@@ -7331,7 +7350,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"colord@npm:^2.9.1":
+"colord@npm:^2.9.1, colord@npm:^2.9.3":
   version: 2.9.3
   resolution: "colord@npm:2.9.3"
   checksum: 10c0/9699e956894d8996b28c686afe8988720785f476f59335c80ce852ded76ab3ebe252703aec53d9bef54f6219aea6b960fb3d9a8300058a1d0c0d4026460cd110
@@ -14618,6 +14637,19 @@ __metadata:
   version: 3.2.2
   resolution: "react-fast-compare@npm:3.2.2"
   checksum: 10c0/0bbd2f3eb41ab2ff7380daaa55105db698d965c396df73e6874831dbafec8c4b5b08ba36ff09df01526caa3c61595247e3269558c284e37646241cba2b90a367
+  languageName: node
+  linkType: hard
+
+"react-file-icon@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "react-file-icon@npm:1.5.0"
+  dependencies:
+    colord: "npm:^2.9.3"
+    prop-types: "npm:^15.7.2"
+  peerDependencies:
+    react: ^18.0.0 || ^17.0.0 || ^16.2.0
+    react-dom: ^18.0.0 || ^17.0.0 || ^16.2.0
+  checksum: 10c0/d44dfbde76adbf7fdb95beda7bc2a2c02c4c8b03ab391a931e1678e78c859edd23dc958c2595ce115bb43a619006daf60c1d4f6dabe64230f4f41e48e6e467ac
   languageName: node
   linkType: hard
 
