@@ -1,4 +1,5 @@
 import { Attachment } from "./attachment";
+import { UploadData } from "./file";
 import { UserBaseData } from "./user";
 
 export interface Message {
@@ -10,3 +11,7 @@ export interface Message {
   attachments?: Attachment[];
   sender: UserBaseData;
 }
+
+export type FormMessage = Pick<Message, "content"> & {
+  attachments: UploadData[];
+};

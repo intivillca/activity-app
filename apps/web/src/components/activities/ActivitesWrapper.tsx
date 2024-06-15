@@ -35,7 +35,7 @@ export const ActivitiesWrapper = () => {
   if (!data || !activityUser) return <Spinner />;
   return (
     <ActivityProvider activity={data} activityUser={activityUser}>
-      <VStack>
+      <VStack spacing={0} overflow={"hidden"}>
         <ActivityHeader />
         <Outlet />
       </VStack>

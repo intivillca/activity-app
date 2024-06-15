@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback } from "react";
+import { ChangeEvent, useCallback } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
 import { Avatar, AvatarBadge, Box } from "@chakra-ui/react";
 import { FaFile } from "react-icons/fa";

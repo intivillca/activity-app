@@ -1,23 +1,5 @@
-import { Server, Socket } from "socket.io";
-
-export interface UploadedFile {
-  ID: number;
-  src: string;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt?: string | null;
-  mime: string;
-  size: number;
-  checksum: string;
-  uploadedById: number;
-  attachedToId?: number | null;
-}
-
-export interface UserBaseData {
-  ID: number;
-  username: string;
-  avatar?: UploadedFile;
-}
+import { UploadedFile } from "../types/file";
+import { UserBaseData } from "../types/user";
 
 export interface Message {
   content: string;
@@ -39,31 +21,31 @@ export type RoomType = "activity" | "group";
 
 export interface JoinLeaveRoomPayload {
   roomType: RoomType;
-  roomId: string;
+  roomId: number;
 }
 
 export interface MsgSendPayload {
   roomType: RoomType;
-  roomId: string;
+  roomId: number;
   message: Message;
 }
 
 export interface MsgEditPayload {
   roomType: RoomType;
-  roomId: string;
+  roomId: number;
   messageId: number;
   newContent: string;
 }
 
 export interface MsgDeletePayload {
   roomType: RoomType;
-  roomId: string;
+  roomId: number;
   messageId: number;
 }
 
 export interface MsgReplyPayload {
   roomType: RoomType;
-  roomId: string;
+  roomId: number;
   messageId: number;
   reply: Message;
 }
@@ -77,6 +59,3 @@ export interface Events {
   msgReply: (data: MsgReplyPayload) => void;
   disconnect: () => void;
 }
-
-export type MessageServer = Server<Events>;
-export type MessageSocket = Socket<Events>;

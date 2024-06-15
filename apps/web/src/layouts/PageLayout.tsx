@@ -10,7 +10,8 @@ export const PageLayout = () => {
         templateColumns={"64px 1fr"}
         flex={"1 1 auto"}
         width={"full"}
-        overflow={"scroll"}
+        h={"100vh"}
+        overflow={"hidden"}
       >
         <Sidebar />
         <Outlet />

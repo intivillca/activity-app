@@ -1,4 +1,6 @@
 import { Box } from "@chakra-ui/react";
+import { ActivitiesGroupsButton } from "./ActivitesGroupsButton";
+import { ActivitiesChatButton } from "./ActivitiesChatButton";
 import { ActivityInfoDrawerTrigger } from "./Info/ActivityInfoDrawerTrigger";
 import { ActivityMemberDrawerTrigger } from "./Members/MemberDrawerTrigger";
 
@@ -17,6 +19,8 @@ export const ActivityHeader = () => {
     >
       <ActivityInfoDrawerTrigger />
       <ActivityMemberDrawerTrigger />
+      <ActivitiesGroupsButton />
+      <ActivitiesChatButton />
     </Box>
   );
 };

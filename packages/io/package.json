@@ -1,0 +1,11 @@
+{
+  "name": "@activityapp/io",
+  "version": "1.0.0",
+  "dependencies": {
+    "@prisma/client": "^5.13.0",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "prisma": "^5.13.0"
+  }
+}
