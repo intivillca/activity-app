@@ -1,20 +1,16 @@
 import { Request, Response } from "express";
-import { parseID } from "../../utils/parseID";
 import { db } from "@activityapp/db";
 
 export const activityMembersController = async (
-  req: Request<{ activityID: string }>,
+  _req: Request,
   res: Response
 ) => {
   try {
-    const { activityID } = req.params;
-    const activityIDNum = parseID(activityID);
-    if (!activityIDNum) {
-      return res.status(400).json({ message: "ID must be a number" });
-    }
+    const ID = res.locals.activityID;
+
     const activityMembers = await db.activityMember.findMany({
       where: {
-        activityId: activityIDNum,
+        activityId: ID,
       },
       include: { user: { include: { avatar: true } } },
     });

@@ -9,20 +9,9 @@ export const patchActivityController = async (
   res: Response
 ) => {
   try {
-    const { activityID } = req.params;
-    const user = res.locals.userID as number;
-    const toNumber = parseID(activityID);
-    const userIDToNumber = parseID(user);
-    if (!toNumber || !userIDToNumber) {
-      return res.status(400).json({ message: "ID must be a number" });
-    }
-    const member = await db.activityMember.findUnique({
-      where: {
-        userId_activityId: { activityId: toNumber, userId: userIDToNumber },
-      },
-    });
-
-    if (!member || (member && member?.groupRole !== "ADMIN")) {
+    const ID = res.locals.activityID;
+    const userRole = res.locals.activityRole;
+    if (userRole !== "ADMIN") {
       return res
         .status(401)
         .json({ message: "User must be admin to edit activity" });
@@ -35,7 +24,7 @@ export const patchActivityController = async (
     }
 
     const activity = await db.activity.update({
-      where: { ID: toNumber },
+      where: { ID },
       data: validData,
     });
 

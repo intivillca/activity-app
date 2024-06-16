@@ -3,19 +3,15 @@ import { parseID } from "../../utils/parseID";
 import { db } from "@activityapp/db";
 
 export const activityMemberController = async (
-  req: Request<{ activityID: string; userID: string }>,
+  _req: Request<{ activityID: string; userID: string }>,
   res: Response
 ) => {
   try {
-    const { activityID, userID } = req.params;
-    const activityIDNum = parseID(activityID);
-    const userIDnum = parseID(userID);
-    if (!activityIDNum || !userIDnum) {
-      return res.status(400).json({ message: "ID must be a number" });
-    }
+    const ID = res.locals.activityID;
+    const userId = res.locals.userID;
     const activityMember = await db.activityMember.findUnique({
       where: {
-        userId_activityId: { activityId: activityIDNum, userId: userIDnum },
+        userId_activityId: { activityId: ID, userId: userId },
       },
     });
     if (!activityMember) {

@@ -3,29 +3,24 @@ import { Request, Response } from "express";
 import { PostActivityMessage } from "../../interfaces/message";
 import { postActivityMessageSchema } from "../../schemas/postActivityMessageSchema";
 import { sendMessage } from "../../socket/socket-events";
-import { parseID } from "../../utils/parseID";
 import { validateAndFilterData } from "../../utils/validateAndFilterData";
 
 export const postActivitiyMessageController = async (
-  req: Request<{ activityID: string }>,
+  req: Request,
   res: Response
 ) => {
   try {
-    const { activityID } = req.params;
-    const user = res.locals.userID as number;
-    const toNumber = parseID(activityID);
-    const userIDToNumber = parseID(user);
-    if (!toNumber || !userIDToNumber) {
-      return res.status(400).json({ message: "ID must be a number" });
-    }
+    const ID = res.locals.activityID;
+    const userId = res.locals.userID;
+
     const validData = validateAndFilterData(
-      { ...req.body, senderId: userIDToNumber, activityId: toNumber },
+      { ...req.body, senderId: userId, activityId: ID },
       postActivityMessageSchema
     ) as PostActivityMessage;
     if (!validData) {
       return res.status(400).json({ message: "Data is invalid" });
     }
-    const newData = await createMessage(validData, userIDToNumber);
+    const newData = await createMessage(validData, userId);
     if (!newData) {
       return res.status(500).json({ message: "Failed to create message" });
     }
