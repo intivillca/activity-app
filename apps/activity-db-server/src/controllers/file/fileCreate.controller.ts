@@ -27,6 +27,7 @@ export const fileCreateController = async (req: Request, res: Response) => {
           src: validData.original,
           uploadedById: userIDToNumber,
           fileName: validData.fileName,
+          type: validData.type === "image" ? "IMAGE" : "FILE",
         },
       });
       return res.json({ fileId: file.ID });

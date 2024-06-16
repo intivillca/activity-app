@@ -13,8 +13,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum FileType {
+  IMAGE
+  FILE
+}
+
 model File {
   ID           Int        @id @default(autoincrement())
+  type         FileType
   src          String
   createdAt    DateTime   @default(now()) @db.Timestamptz
   updatedAt    DateTime   @updatedAt @db.Timestamptz

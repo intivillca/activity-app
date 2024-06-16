@@ -8,7 +8,7 @@ export const ActivityHeader = () => {
   return (
     <Box
       h={"72px"}
-      flex={"0 1 72px"}
+      flex={"0 0 72px"}
       bg={"gray.700"}
       w="full"
       color={"white"}

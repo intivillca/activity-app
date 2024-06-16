@@ -20,7 +20,7 @@ export const handleFile = async (file: Express.Multer.File) => {
     fileName,
     mimeType: fileType,
     fileSize,
-    path: `/files/${path.basename(newFilePath)}`,
+    original: `/files/${path.basename(newFilePath)}`,
     checksum,
   };
   return response;

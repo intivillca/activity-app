@@ -4,5 +4,9 @@ export interface Attachment {
   updatedAt: string;
   deletedAt: string | null;
   src: string;
-  mime: string;
+  mimeType: string;
+  size: number;
+  checksum: string;
+  fileName: string;
+  type: "IMAGE" | "FILE";
 }

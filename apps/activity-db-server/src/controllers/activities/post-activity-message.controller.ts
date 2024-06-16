@@ -65,6 +65,7 @@ const createMessage = async (message: PostActivityMessage, userID: number) => {
               src: item.original,
               uploadedById: userID,
               fileName: item.fileName,
+              type: item.type === "image" ? "IMAGE" : "FILE",
             })),
           },
         },

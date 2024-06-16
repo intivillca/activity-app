@@ -5,11 +5,11 @@ import { Message } from "../../socket/types";
 export const useMessageQueryEvents = (queryKey: QueryKey) => {
   const queryClient = useQueryClient();
   useSocketEvents("msgSend", (data) => {
-    queryClient.setQueryData<Message[]>(queryKey, (prev) => {
+    queryClient.setQueryData<{ messages: Message[] }>(queryKey, (prev) => {
       if (!prev) {
-        return [];
+        return { messages: [] };
       }
-      return [data.message, ...prev];
+      return { messages: [...prev.messages, data.message] };
     });
   });
 };
