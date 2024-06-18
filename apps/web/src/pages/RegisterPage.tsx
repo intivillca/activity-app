@@ -1,9 +1,8 @@
-import { Flex, Stack, Avatar, Heading, Box, Link } from "@chakra-ui/react";
+import { Flex, Stack, Avatar, Heading, Box } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { Link as RouterLink } from "react-router-dom";
-import { LoginForm } from "../components/login/LoginForm";
+import { RegisterForm } from "../components/register/RegisterForm";
 
-export const LoginPage = () => {
+export const RegisterPage = () => {
   const { t } = useTranslation();
   return (
     <Flex
@@ -23,15 +22,9 @@ export const LoginPage = () => {
         <Avatar bg="teal.500" />
         <Heading color="teal.400">{t("welcome")}</Heading>
         <Box minW={{ base: "90%", md: "468px" }}>
-          <LoginForm />
+          <RegisterForm />
         </Box>
       </Stack>
-      <Box>
-        {t("new_to_us")}{" "}
-        <Link color="teal.500" as={RouterLink} to="/register">
-          {t("sign_up")}
-        </Link>
-      </Box>
     </Flex>
   );
 };

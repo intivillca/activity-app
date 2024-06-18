@@ -8,13 +8,14 @@ import { ActivitiesWrapper } from "../components/activities/ActivitesWrapper";
 import { AddActivity } from "./AddActivity";
 import { AuthProvider } from "../auth/AuthContext";
 import { Invite } from "./Invite";
+import { RegisterPage } from "./RegisterPage";
 
 export const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={"Hello from register page"} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route
           element={
             <AuthProvider>
