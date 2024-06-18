@@ -85,7 +85,7 @@ model Group {
   activityId  Int
   startDate   DateTime?   @db.Timestamptz()
   endDate     DateTime?   @db.Timestamptz()
-  location    String
+  location    String?
   tags        String[]
   avatar      File?       @relation(fields: [avatarId], references: [ID])
   avatarId    Int?
