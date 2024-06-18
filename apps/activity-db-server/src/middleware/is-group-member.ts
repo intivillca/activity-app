@@ -5,47 +5,45 @@ import NodeCache from "node-cache";
 
 const cache = new NodeCache({ stdTTL: 60, checkperiod: 120 });
 
-export const isActivityMember = async (
-  req: Request<{ activityID: string }>,
+export const isGroupMember = async (
+  req: Request<{ groupID: string }>,
   res: Response,
   next: NextFunction
 ) => {
-  const { activityID } = req.params;
   const user = res.locals.userID as number;
-
-  const toNumber = parseID(activityID);
+  const groupID = parseID(req.params.groupID);
   const userIDToNumber = parseID(user);
 
-  if (!toNumber || !userIDToNumber) {
-    return res.status(400).json({ message: "ID must be a number" });
+  if (!userIDToNumber || !groupID) {
+    return res.status(400).json({ message: "User ID must be a number" });
   }
 
-  const cacheKey = `activityMember:${userIDToNumber}-${toNumber}`;
+  const cacheKey = `groupMember:${userIDToNumber}-${groupID}`;
 
   const cachedResult = cache.get<{ groupRole: string }>(cacheKey);
 
   if (cachedResult) {
-    res.locals.activityID = toNumber;
-    res.locals.activityRole = cachedResult.groupRole;
+    res.locals.groupID = groupID;
+    res.locals.groupRole = cachedResult.groupRole;
     return next();
   }
 
   try {
-    const isMember = await db.activityMember.findUnique({
+    const isMember = await db.groupUser.findUnique({
       where: {
-        userId_activityId: { activityId: toNumber, userId: userIDToNumber },
+        userId_groupId: { groupId: groupID, userId: userIDToNumber },
       },
       select: { groupRole: true },
     });
 
     if (!isMember) {
-      return res.status(401).json({ message: "User is not in activity" });
+      return res.status(401).json({ message: "User is not in group" });
     }
 
     cache.set(cacheKey, isMember);
 
-    res.locals.activityID = toNumber;
-    res.locals.activityRole = isMember.groupRole;
+    res.locals.groupID = groupID;
+    res.locals.groupRole = isMember.groupRole;
     return next();
   } catch (error) {
     console.error("Database query failed:", error);

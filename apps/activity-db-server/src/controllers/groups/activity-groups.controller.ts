@@ -3,17 +3,14 @@ import { Request, Response } from "express";
 import { parseID } from "../../utils/parseID";
 
 export const activityGroupsController = async (
-  req: Request<{ activityID: string }>,
+  _req: Request<{ activityID: string }>,
   res: Response
 ) => {
   try {
-    const { activityID } = req.params;
-    const toNumber = parseID(activityID);
-    if (!toNumber) {
-      return res.status(400).json({ message: "ID must be a number" });
-    }
+    const ID = res.locals.activityID;
+
     const groups = await db.group.findMany({
-      where: { activityId: toNumber },
+      where: { activityId: ID },
       include: { avatar: true },
     });
     return res.json({ groups });
