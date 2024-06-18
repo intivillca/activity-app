@@ -1,7 +1,7 @@
-import z from "zod";
+import z, { ZodObject, ZodType } from "zod";
 import _ from "lodash";
 
-export const validateAndFilterData = (
+export const validateAndFilterData = <T extends ZodType<any> = ZodObject<any>>(
   data: Object,
   schema: z.ZodObject<any>
 ) => {
@@ -14,5 +14,5 @@ export const validateAndFilterData = (
   const filteredData = Object.fromEntries(
     Object.entries(data).filter(([key]) => schema.shape.hasOwnProperty(key))
   );
-  return filteredData;
+  return filteredData as z.infer<T>;
 };
