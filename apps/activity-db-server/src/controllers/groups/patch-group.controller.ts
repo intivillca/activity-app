@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { patchGroupSchema } from "../../schemas/patchGroupSchema";
 import { validateAndFilterData } from "../../utils/validateAndFilterData";
 
-export const patchgroupController = async (req: Request, res: Response) => {
+export const patchGroupController = async (req: Request, res: Response) => {
   try {
     const ID = res.locals.groupID;
     const userRole = res.locals.groupRole;

@@ -41,6 +41,7 @@ export const ActivityInfoDrawerContent = () => {
         <TabList justifyContent={"center"}>
           <Tab fontWeight={"bold"}>{t("activities.info.info")}</Tab>
           <Tab fontWeight={"bold"}>{t("activities.info.location")}</Tab>
+          <Tab fontWeight={"bold"}>{t("activities.info.attachments")}</Tab>
         </TabList>
 
         <TabPanels>

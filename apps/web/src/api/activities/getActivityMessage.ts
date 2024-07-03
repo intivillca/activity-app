@@ -3,7 +3,6 @@ import { Message } from "../../types/message";
 import { api } from "../api";
 
 export const getActivityMessages = async (activityID: ID, cursor: any) => {
-  console.log(cursor);
   const { data } = await api.get<{
     data: Message[];
     meta: { totalItems: number; nextCursor: number; prevCursor: number };

@@ -6,5 +6,66 @@
   "sign_up": "Sign up",
   "email_address": "E-mail",
   "username": "Username",
-  "password": "Password"
+  "password": "Password",
+  "activities": {
+    "groups": "Groups",
+    "add_activity": "Add Activity",
+    "form": {
+      "name": "Name",
+      "description": "Description",
+      "start_date": "Start Date",
+      "end_date": "End Date",
+      "location": "Location",
+      "tags": "Tags"
+    },
+    "info": {
+      "images": "Images",
+      "files": "Files",
+      "info": "Info",
+      "location": "Location",
+      "attachments": "Attachments"
+    },
+    "members": "Members",
+    "invite_members": "Invite Members"
+  },
+  "chat": "Chat",
+  "description": "Description",
+  "crud": {
+    "created_at": "Created At",
+    "updated_at": "Updated At"
+  },
+  "form": {
+    "empty": "Empty",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "save": "Save",
+    "edit": "Edit",
+    "location_search": "Location search",
+    "enter_tags": "Enter tags"
+  },
+  "members": {
+    "make_admin": "Make admin",
+    "kick": "Kick"
+  },
+  "view": "View",
+  "delete": "Delete",
+  "download": "Download",
+  "attach": "Attach",
+  "send": "Send",
+  "groups": {
+    "add_group": "Add Group",
+    "join-group": "Join Group",
+    "group_is_locked": "Group is locked",
+    "join_group": "Join Group"
+  },
+  "add_activity": "add_activity",
+  "login_error": "Error logging in",
+  "register_error": "Error registering a new user",
+  "email": "Email",
+  "register": "Register",
+  "roles": {
+    "admin": "Admin",
+    "member": "Member",
+    "moderator": "Moderator"
+  }
 }

@@ -9,6 +9,7 @@ import { AddActivity } from "./AddActivity";
 import { AuthProvider } from "../auth/AuthContext";
 import { Invite } from "./Invite";
 import { RegisterPage } from "./RegisterPage";
+import { GlobalMessages } from "../components/global/GlobalMessages/GlobalMessages";
 
 export const AppRoutes = () => {
   return (
@@ -25,10 +26,7 @@ export const AppRoutes = () => {
         >
           <Route element={<ProtectedRoute />}>
             <Route element={<PageLayout />}>
-              <Route
-                path="/"
-                element={<>{"router successfuly configured"}</>}
-              />
+              <Route path="/" element={<GlobalMessages />} />
               <Route path="/invite/:ID" element={<Invite />} />
               <Route path="/activities/create" element={<AddActivity />} />
               <Route element={<ActivitiesWrapper />}>

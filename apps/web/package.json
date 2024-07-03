@@ -80,6 +80,7 @@
     "@types/react-icons": "^3.0.0",
     "@types/react-query": "^1.2.9",
     "@types/react-router-dom": "^5.3.3",
-    "@types/socket.io-client": "^3.0.0"
+    "@types/socket.io-client": "^3.0.0",
+    "i18next-scanner": "^4.5.0"
   }
 }

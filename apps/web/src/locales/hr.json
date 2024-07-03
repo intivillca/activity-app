@@ -7,7 +7,8 @@
   "groups": {
     "join_group": "Pridruži se grupi",
     "add_group": "Dodaj grupu",
-    "group_is_locked": "Grupa je zaključana"
+    "group_is_locked": "Grupa je zaključana",
+    "join-group": "groups.join-group"
   },
   "activities": {
     "add_activity": "Dodaj aktivnost",
@@ -25,8 +26,12 @@
     },
     "info": {
       "info": "Informacije",
-      "location": "Lokacija"
-    }
+      "location": "Lokacija",
+      "attachments": "Privitci",
+      "images": "Slike",
+      "files": "Datoteke"
+    },
+    "groups": "Grupe"
   },
   "form": {
     "location_search": "Pretraži lokacije",
@@ -46,5 +51,23 @@
     "created_at": "Kreiran",
     "updated_at": "Ažuriran",
     "deleted": "Obrisan"
-  }
+  },
+  "chat": "Chat",
+  "description": "Opis",
+  "members": {
+    "make_admin": "Pretvori u administratora",
+    "kick": "Izbaci"
+  },
+  "view": "Pregled",
+  "delete": "Obriši",
+  "download": "Preuzmi",
+  "attach": "Priloži",
+  "send": "Pošalji",
+  "add_activity": "Dodaj aktivnost",
+  "login_error": "Greška pri prijavi ",
+  "username": "Korisničko ime",
+  "password": "Lozinka",
+  "register_error": "Greška pri registraciji",
+  "email": "Email",
+  "register": "Registriraj se"
 }

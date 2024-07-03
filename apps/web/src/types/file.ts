@@ -23,14 +23,17 @@ export interface UploadFileData extends UploadBaseData {
 }
 export type UploadData = UploadImageData | UploadFileData;
 
+export type FileType = "IMAGE" | "FILE";
 export interface UploadedFile {
   ID: number;
+  type: FileType;
   src: string;
   createdAt: string;
   updatedAt: string;
   deletedAt?: string | null;
-  mime: string;
+  mimeType: string;
   size: number;
+  fileName: string;
   checksum: string;
   uploadedById: number;
   attachedToId?: number | null;

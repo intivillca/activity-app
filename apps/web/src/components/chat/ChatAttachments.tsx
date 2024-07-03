@@ -38,7 +38,13 @@ export const ChatAttachment = ({ fileName, size, src }: Attachment) => {
   );
   const fsize = useMemo(() => formatFileSize(size), [size]);
   return (
-    <Card overflow="hidden" variant="outline" size={"sm"} rounded={"xl"}>
+    <Card
+      overflow="hidden"
+      variant="outline"
+      size={"sm"}
+      rounded={"xl"}
+      w={"full"}
+    >
       <CardBody as={HStack} gridGap={2}>
         <Box flex={"0 0 36px"}>
           <FileIcon

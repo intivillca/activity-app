@@ -21,6 +21,7 @@ import { EditableTagInput } from "../../global/EditableTags";
 import { useController, useFormContext } from "react-hook-form";
 import { FormActivity } from "../../../types/activity";
 import { useActivityProvider } from "../ActivityCtx";
+import { ActivityAttachments } from "./ActivityAttachments";
 
 export const ActivityFormInfoDrawerContent = () => {
   const { t } = useTranslation();
@@ -57,6 +58,7 @@ export const ActivityFormInfoDrawerContent = () => {
         <TabList justifyContent={"center"}>
           <Tab fontWeight={"bold"}>{t("activities.info.info")}</Tab>
           <Tab fontWeight={"bold"}>{t("activities.info.location")}</Tab>
+          <Tab fontWeight={"bold"}>{t("activities.info.attachments")}</Tab>
         </TabList>
 
         <TabPanels>
@@ -120,6 +122,9 @@ export const ActivityFormInfoDrawerContent = () => {
               value={stringToLatLng(locationField.value)}
               onChange={() => {}}
             />
+          </TabPanel>
+          <TabPanel p={0}>
+            <ActivityAttachments />
           </TabPanel>
         </TabPanels>
       </Tabs>
