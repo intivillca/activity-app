@@ -6,6 +6,7 @@ import { Message } from "../../types/message";
 import { useRefreshDate } from "../../utils/use-refresh-date";
 import { ChatAttachments } from "./ChatAttachments";
 import { ChatImages } from "./ChatImages";
+import { ChatMessageActions } from "./ChatMessageActions";
 
 interface SplitAttachments {
   files: Attachment[];
@@ -43,6 +44,7 @@ export const ChatMessage = ({
           <HStack>
             <Box fontWeight={"bold"}>{sender.username}</Box>
             <ChatMessageDate updatedAt={updatedAt} />
+            <ChatMessageActions />
           </HStack>
           <Box>{content}</Box>
         </VStack>

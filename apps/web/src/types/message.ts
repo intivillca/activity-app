@@ -14,4 +14,5 @@ export interface Message {
 
 export type FormMessage = Pick<Message, "content"> & {
   attachments: UploadData[];
+  messageID?: number;
 };

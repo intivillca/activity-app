@@ -14,6 +14,8 @@ import { latLngToString, stringToLatLng } from "../../../utils/location-utils";
 import { useTranslation } from "react-i18next";
 import { AvatarInput } from "../../global/AvatarInput";
 
+import { DateInput } from "../../global/DateInput";
+
 export const ActivitiesFormFields = () => {
   const {
     register,
@@ -30,6 +32,11 @@ export const ActivitiesFormFields = () => {
   const {
     field: { value: location, onChange: onChangeLocation },
   } = useController({ control, name: "location" });
+  const { field: startDateField } = useController({
+    control,
+    name: "startDate",
+  });
+  const { field: endDateField } = useController({ control, name: "endDate" });
   return (
     <>
       <FormControl isInvalid={!!errors.avatar} mb={4}>
@@ -69,10 +76,9 @@ export const ActivitiesFormFields = () => {
         <FormLabel htmlFor="startDate">
           {t("activities.form.start_date")}
         </FormLabel>
-        <Input
-          type="date"
-          id="startDate"
-          {...register("startDate", { setValueAs: (value) => value || null })}
+        <DateInput
+          value={startDateField.value}
+          onChange={startDateField.onChange}
         />
         <FormErrorMessage>
           {errors.startDate && errors.startDate.message}
@@ -81,10 +87,9 @@ export const ActivitiesFormFields = () => {
 
       <FormControl isInvalid={!!errors.endDate} mb={4}>
         <FormLabel htmlFor="endDate">{t("activities.form.end_date")}</FormLabel>
-        <Input
-          type="date"
-          id="endDate"
-          {...register("endDate", { setValueAs: (value) => value || null })}
+        <DateInput
+          value={endDateField.value}
+          onChange={endDateField.onChange}
         />
         <FormErrorMessage>
           {errors.endDate && errors.endDate.message}

@@ -16,14 +16,30 @@ import { uploadFile } from "../../api-file-server/upload-file";
 import { postActivityMessage } from "../../api/activities/postMessage";
 import { UploadData } from "../../types/file";
 import { FormMessage } from "../../types/message";
+import { useChangeEffect } from "../../utils/use-change-effect";
 import { useActivityProvider } from "../activities/ActivityCtx";
 import { Attachment } from "./Attachment";
 
-export const ChatInput = () => {
+interface Props {
+  reply?: { content: string; messageID: number };
+}
+export const ChatInput = ({ reply }: Props) => {
   const { t } = useTranslation();
   const { handleSubmit, register, reset, control } = useForm<FormMessage>({
     defaultValues: { attachments: [], content: "" },
   });
+
+  useChangeEffect(
+    reply?.messageID ?? -1,
+    () => {
+      reset({
+        content: reply?.content ?? "",
+        attachments: [],
+        messageID: reply?.messageID,
+      });
+    },
+    [reset]
+  );
   const { activity } = useActivityProvider();
 
   const { fields, append, remove } = useFieldArray({
@@ -117,6 +133,7 @@ export const ChatInput = () => {
         />
         <InputRightAddon h="full">
           <IconButton
+            type="submit"
             aria-label={t("send")}
             icon={<FaPaperPlane />}
             variant={"ghost"}
