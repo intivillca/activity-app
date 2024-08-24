@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
 import { Box, SimpleGrid, Spinner } from "@chakra-ui/react";
 import { GroupCard } from "../groups/GroupCard";
-import { AddGroup } from "../groups/AddGroup";
 import { getActivityGroups } from "../../api/activities/getActivityGroups";
+import { GroupCreateModalTrigger } from "../groups/Modal/ModalTrigger";
 
 interface Props {
   ID: string | number;
@@ -22,7 +22,7 @@ export const ActivityGroups = ({ ID }: Props) => {
         {data.groups.map((group) => (
           <GroupCard key={group.ID} {...group} />
         ))}
-        <AddGroup />
+        <GroupCreateModalTrigger />
       </SimpleGrid>
     </Box>
   );

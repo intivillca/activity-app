@@ -1,6 +1,6 @@
-import { UploadedFile } from "./file";
+import { UploadedFile, UploadImageData } from "./file";
 
-type GroupType = "PUBLIC" | "PRIVATE" | "LOCKED";
+export type GroupType = "PUBLIC" | "PRIVATE" | "LOCKED";
 
 export interface Group {
   ID: number;
@@ -18,6 +18,10 @@ export interface Group {
   tags: string[];
   avatar?: UploadedFile;
 }
+
+export type FormGroup = Omit<Group, "avatar"> & {
+  avatar?: UploadImageData | UploadedFile;
+};
 
 export type GroupCard = Omit<
   Group,
