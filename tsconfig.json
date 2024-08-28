@@ -1,20 +1,21 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Default",
   "compilerOptions": {
-    "declaration": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "incremental": false,
-    "isolatedModules": true,
-    "lib": ["es2022", "DOM", "DOM.Iterable"],
-    "module": "NodeNext",
-    "moduleDetection": "force",
-    "moduleResolution": "NodeNext",
-    "noUncheckedIndexedAccess": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
+    "target": "ESNext",
+    "module": "CommonJS",
     "strict": true,
-    "target": "ES2022"
-  }
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "paths": {
+      "@activityapp/web": ["apps/web/src"],
+      "@activityapp/auth-server": ["apps/auth-server/src"],
+      "@activityapp/file-server": ["apps/file-server/src"],
+      "@activityapp/message-ws-server": ["apps/message-ws-server/src"],
+      "@activityapp/activity-db-server": ["apps/activity-db-server/src"],
+      "@activityapp/db": ["packages/db/src"] // Remove leading slash
+    }
+  },
+  "include": ["packages/**/*", "apps/**/*"], // Include both packages and apps
+  "exclude": ["node_modules", "**/*.test.ts"]
 }

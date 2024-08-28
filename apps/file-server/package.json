@@ -2,7 +2,7 @@
   "name": "@activityapp/file-server",
   "version": "1.0.0",
   "scripts": {
-    "start": "node ./dist/index.ts",
+    "start": "node ./dist/index.js",
     "build": "tsc -p .",
     "dev": "nodemon ./src/index.ts"
   },
