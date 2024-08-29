@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { GroupFormFields } from "../Form/GroupFormFields";
-import { GroupModalFormWrapper } from "./ActivityModalFormWrapper";
+import { GroupModalFormWrapper } from "./GroupModalFormWrapper";
 
 interface Props {
   onClose: () => void;

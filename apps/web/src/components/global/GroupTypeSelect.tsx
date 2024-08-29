@@ -36,6 +36,9 @@ export const GroupTypeCard = (props: PropsWithChildren<UseRadioProps>) => {
         }}
         px={5}
         py={3}
+        display="flex"
+        alignItems={"center"}
+        flexDir={"column"}
       >
         {props.children}
       </Box>
@@ -81,7 +84,7 @@ export const GroupTypeSelect = ({ value, onChange }: Props) => {
   const group = getRootProps();
 
   return (
-    <HStack {...group}>
+    <HStack {...group} w="full" justify={"center"}>
       {options.map((value) => {
         const radio = getRadioProps({ value: value.value });
         return (

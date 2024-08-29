@@ -3,8 +3,8 @@
   grid-template-columns: 1fr 1fr 1fr;
 }
 .lg-outer {
-  z-index: 1100;
+  z-index: 8000;
 }
 .lg-backdrop {
-  z-index: 1090;
+  z-index: 8000;
 }

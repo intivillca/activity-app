@@ -6,6 +6,7 @@ import { getGroupMessagesController } from "../controllers/groups/get-group-mess
 import { patchGroupController } from "../controllers/groups/patch-group.controller";
 import { postGroupMessageController } from "../controllers/groups/post-group-message.controller";
 import { createGroupController } from "../controllers/groups/create-group.controller";
+import { groupJoinController } from "../controllers/groups/group-join.controller";
 
 const router = Router();
 const path = "/groups";
@@ -23,5 +24,6 @@ router.get(`${path}/:groupID/message`, getGroupMessagesController);
 router.patch(`${path}/:groupID`, patchGroupController);
 router.post(`${path}`, createGroupController);
 router.post(`${path}/:groupID/message`, postGroupMessageController);
+router.get(`${path}/:groupID/join`, groupJoinController);
 
 export { router as groups };

@@ -8,7 +8,14 @@
     "join_group": "Pridruži se grupi",
     "add_group": "Dodaj grupu",
     "group_is_locked": "Grupa je zaključana",
-    "join-group": "groups.join-group"
+    "join-group": "Pridruži se grupi",
+    "form": {
+      "type": {
+        "public": "Javna",
+        "private": "Privatna",
+        "locked": "Zaključana"
+      }
+    }
   },
   "activities": {
     "add_activity": "Dodaj aktivnost",
@@ -31,7 +38,8 @@
       "images": "Slike",
       "files": "Datoteke"
     },
-    "groups": "Grupe"
+    "groups": "Grupe",
+    "add_group": "Dodaj grupu"
   },
   "form": {
     "location_search": "Pretraži lokacije",
@@ -52,7 +60,6 @@
     "updated_at": "Ažuriran",
     "deleted": "Obrisan"
   },
-  "chat": "Chat",
   "description": "Opis",
   "members": {
     "make_admin": "Pretvori u administratora",
@@ -69,5 +76,26 @@
   "password": "Lozinka",
   "register_error": "Greška pri registraciji",
   "email": "Email",
-  "register": "Registriraj se"
+  "register": "Registriraj se",
+  "chat": {
+    "chat": "Chat",
+    "actions": {
+      "actions": "Akcije",
+      "edit": "Uredi",
+      "delete": "Obriši"
+    }
+  },
+  "group": {
+    "form": {
+      "name": "Ime groupe",
+      "type": {
+        "type": "Tip"
+      },
+      "description": "Opis",
+      "start_date": "Datum početka",
+      "end_date": "Datum kraja",
+      "location": "Lokacija",
+      "tags": "Oznake"
+    }
+  }
 }

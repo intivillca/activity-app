@@ -3,7 +3,7 @@ import { FormActivity } from "../../../types/activity";
 import { PropsWithChildren } from "react";
 
 export const GroupFormWrapper = ({ children }: PropsWithChildren) => {
-  const methods = useForm<FormActivity>();
+  const methods = useForm<FormActivity>({});
   return (
     <FormProvider {...methods}>
       <form

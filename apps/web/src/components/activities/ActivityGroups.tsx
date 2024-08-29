@@ -3,17 +3,21 @@ import { Box, SimpleGrid, Spinner } from "@chakra-ui/react";
 import { GroupCard } from "../groups/GroupCard";
 import { getActivityGroups } from "../../api/activities/getActivityGroups";
 import { GroupCreateModalTrigger } from "../groups/Modal/ModalTrigger";
+import { useMemo } from "react";
+import { useUpdateGroups } from "../../utils/use-update-groups";
 
 interface Props {
   ID: string | number;
 }
 export const ActivityGroups = ({ ID }: Props) => {
+  const queryKey = useMemo(() => [`Activity-${ID}-Groups`], [ID]);
   const { data, isLoading } = useQuery({
-    queryKey: [`Activity-${ID}-Groups`],
+    queryKey,
     queryFn: () => {
       return getActivityGroups(ID);
     },
   });
+  useUpdateGroups(queryKey);
   if (!data || isLoading) return <Spinner />;
 
   return (

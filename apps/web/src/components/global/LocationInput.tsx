@@ -9,6 +9,7 @@ import {
 import { Box, Input, FormControl } from "@chakra-ui/react";
 import { Location } from "../../types/global";
 import { useTranslation } from "react-i18next";
+import "./style.css";
 
 const mapContainerStyle = {
   width: "100%",

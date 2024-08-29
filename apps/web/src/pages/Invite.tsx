@@ -52,6 +52,7 @@ export const Invite = () => {
         </CardHeader>
         <CardBody>
           {"You joined"}
+          {"  "}
           {inviteData.activity.name}-{inviteData.group?.name ?? ""}
         </CardBody>
         <CardFooter>

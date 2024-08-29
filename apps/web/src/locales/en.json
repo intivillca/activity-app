@@ -26,9 +26,9 @@
       "attachments": "Attachments"
     },
     "members": "Members",
-    "invite_members": "Invite Members"
+    "invite_members": "Invite Members",
+    "add_group": "Add Group"
   },
-  "chat": "Chat",
   "description": "Description",
   "crud": {
     "created_at": "Created At",
@@ -56,9 +56,16 @@
     "add_group": "Add Group",
     "join-group": "Join Group",
     "group_is_locked": "Group is locked",
-    "join_group": "Join Group"
+    "join_group": "Join Group",
+    "form": {
+      "type": {
+        "public": "Public",
+        "private": "Private",
+        "locked": "Locked"
+      }
+    }
   },
-  "add_activity": "add_activity",
+  "add_activity": "Add Activity",
   "login_error": "Error logging in",
   "register_error": "Error registering a new user",
   "email": "Email",
@@ -67,5 +74,26 @@
     "admin": "Admin",
     "member": "Member",
     "moderator": "Moderator"
+  },
+  "chat": {
+    "chat": "Chat",
+    "actions": {
+      "actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
+  "group": {
+    "form": {
+      "name": "Name",
+      "type": {
+        "type": "Type"
+      },
+      "description": "Description",
+      "start_date": "Start Date",
+      "end_date": "End Date",
+      "location": "Location",
+      "tags": "Tags"
+    }
   }
 }

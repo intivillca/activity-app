@@ -14,6 +14,9 @@ import { useTranslation } from "react-i18next";
 import { useActivityProvider } from "../ActivityCtx";
 import { StaticAvatar } from "../../global/Static/StaticAvatar";
 import { LocationDisplay } from "../../global/LocationStatic";
+import { useMemo } from "react";
+import { parseIsoToDate } from "../../global/utils";
+import { ActivityAttachments } from "./ActivityAttachments";
 
 export const ActivityInfoDrawerContent = () => {
   const { t } = useTranslation();
@@ -30,6 +33,25 @@ export const ActivityInfoDrawerContent = () => {
       updatedAt,
     },
   } = useActivityProvider();
+
+  const endDateF = useMemo(() => {
+    if (!endDate) {
+      return null;
+    }
+    if (typeof endDate === "string") {
+      return parseIsoToDate(endDate);
+    }
+    return endDate;
+  }, [endDate]);
+  const startDateF = useMemo(() => {
+    if (!startDate) {
+      return null;
+    }
+    if (typeof startDate === "string") {
+      return parseIsoToDate(startDate);
+    }
+    return startDate;
+  }, [startDate]);
 
   return (
     <VStack alignItems={"center"} p={0}>
@@ -57,13 +79,17 @@ export const ActivityInfoDrawerContent = () => {
                 <Box fontWeight={"bold"} w="full">
                   {t("activities.form.start_date")}
                 </Box>
-                <Box w="full">{startDate ?? t("form:empty")}</Box>
+                <Box w="full">
+                  {startDateF?.toLocaleString() ?? t("form.empty")}
+                </Box>
               </VStack>
               <VStack w="full">
                 <Box fontWeight={"bold"} w="full">
                   {t("activities.form.end_date")}
                 </Box>
-                <Box w="full">{endDate ?? t("form:empty")}</Box>
+                <Box w="full">
+                  {endDateF?.toLocaleString() ?? t("form.empty")}
+                </Box>
               </VStack>
               <VStack w="full">
                 <Box fontWeight={"bold"} w="full">
@@ -99,6 +125,9 @@ export const ActivityInfoDrawerContent = () => {
           </TabPanel>
           <TabPanel p={0}>
             <LocationDisplay location={stringToLatLng(location)} />
+          </TabPanel>
+          <TabPanel p={0}>
+            <ActivityAttachments />
           </TabPanel>
         </TabPanels>
       </Tabs>

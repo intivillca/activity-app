@@ -84,7 +84,7 @@ export const ActivityFormInfoDrawerContent = () => {
                 <FormErrorMessage>{""}</FormErrorMessage>
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="startDate" fontWeight={"bold"}>
+                <FormLabel htmlFor="endDate" fontWeight={"bold"}>
                   {t("activities.form.end_date")}
                 </FormLabel>
                 <EditableDate

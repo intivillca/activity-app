@@ -14,13 +14,8 @@ import { ChatMessage } from "./ChatMessage";
 import { useMessageQueryEvents } from "./use-message-query-events";
 import { getActivityMessages } from "../../api/activities/getActivityMessage";
 import { useChangeEffect } from "../../utils/use-change-effect";
-import { useGroupProvider } from "../groups/GroupProvider";
 
-interface Props {
-  roomType: "activity" | "group";
-  roomId: number;
-}
-export const Chat = ({ roomId, roomType }: Props) => {
+export const ChatContainer = () => {
   const alreadyScrolled = useRef<boolean>(false);
   const chatContainerElementRef = useRef<HTMLDivElement>();
   const chatContainerRef = useCallback((e: HTMLDivElement) => {
@@ -31,11 +26,13 @@ export const Chat = ({ roomId, roomType }: Props) => {
 
     chatContainerElementRef.current = e;
   }, []);
+  const { activity } = useActivityProvider();
+  const roomId = useMemo(() => activity.ID, [activity.ID]);
+  const roomType: "activity" = useMemo(() => "activity", []);
   const queryKey = useMemo(
     () => ["Messages", roomType, roomId],
     [roomId, roomType]
   );
-
   const handleShouldScroll = useCallback(
     (chatContainerRef: MutableRefObject<HTMLDivElement | undefined>) => {
       if (chatContainerRef.current) {
@@ -50,27 +47,20 @@ export const Chat = ({ roomId, roomType }: Props) => {
     },
     []
   );
+
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryFn: async ({ pageParam }) => {
-      if (roomType === "group") {
-        return {
-          data: [],
-          meta: {
-            totalItems: 0,
-            nextCursor: 0,
-            prevCursor: 0,
-          },
-        };
-      }
-      return getActivityMessages(roomId, pageParam);
+      return getActivityMessages(activity.ID, pageParam);
     },
     getNextPageParam: ({ meta: { nextCursor } }) => nextCursor,
     getPreviousPageParam: ({ meta: { prevCursor } }) => prevCursor,
     queryKey,
   });
+
   const items = useMemo(() => {
     return data?.pages.map((page) => page.data).flat();
   }, [data?.pages]);
+
   useEffect(() => {
     handleJoinRoom({ roomId, roomType });
     return () => {
@@ -111,16 +101,4 @@ export const Chat = ({ roomId, roomType }: Props) => {
       </Box>
     </VStack>
   );
-};
-export const GroupChat = () => {
-  const { group } = useGroupProvider();
-  const roomId = useMemo(() => group.ID, [group.ID]);
-  const roomType: "group" = useMemo(() => "group", []);
-  return <Chat roomType={roomType} roomId={roomId} />;
-};
-export const ActivityChat = () => {
-  const { activity } = useActivityProvider();
-  const roomId = useMemo(() => activity.ID, [activity.ID]);
-  const roomType: "activity" = useMemo(() => "activity", []);
-  return <Chat roomType={roomType} roomId={roomId} />;
 };

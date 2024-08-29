@@ -14,7 +14,7 @@ export const ActivitiesChatButton = () => {
       as={Link}
       to={`/activities/${ID}/chat`}
       colorScheme="white"
-      aria-label={t("chat")}
+      aria-label={t("chat.chat")}
       icon={<FaComment />}
       variant={"ghost"}
     />

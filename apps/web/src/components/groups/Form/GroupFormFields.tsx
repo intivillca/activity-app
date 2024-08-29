@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { AvatarInput } from "../../global/AvatarInput";
 
 import { DateInput } from "../../global/DateInput";
-import { FormGroup, GroupType } from "../../../types/group";
+import { FormGroup } from "../../../types/group";
 import { GroupTypeSelect } from "../../global/GroupTypeSelect";
 
 export const GroupFormFields = () => {
@@ -80,6 +80,19 @@ export const GroupFormFields = () => {
         />
         <FormErrorMessage>
           {errors.description && errors.description.message}
+        </FormErrorMessage>
+      </FormControl>
+
+      <FormControl isInvalid={!!errors.description} mb={4}>
+        <FormLabel htmlFor="maxSize">{t("group.form.max_size")}</FormLabel>
+        <Input
+          id="maxSize"
+          type={"number"}
+          placeholder={t("group.form.max_size")}
+          {...register("maxSize", { valueAsNumber: true })}
+        />
+        <FormErrorMessage>
+          {errors.name && errors.name?.message}
         </FormErrorMessage>
       </FormControl>
 

@@ -1,15 +1,48 @@
-import { QueryKey, useQueryClient } from "react-query";
+import { InfiniteData, QueryKey, useQueryClient } from "react-query";
 import { useSocketEvents } from "../../socket/socket";
 import { Message } from "../../socket/types";
 
 export const useMessageQueryEvents = (queryKey: QueryKey) => {
   const queryClient = useQueryClient();
-  useSocketEvents("msgSend", (data) => {
-    queryClient.setQueryData<{ messages: Message[] }>(queryKey, (prev) => {
+
+  useSocketEvents("msgSend", (newMessage) => {
+    queryClient.setQueryData<
+      InfiniteData<{
+        data: Message[];
+        meta: {
+          totalItems: number;
+          nextCursor: number | null;
+          prevCursor: number | null;
+        };
+      }>
+    >(queryKey, (prev) => {
+      console.log(prev);
+
       if (!prev) {
-        return { messages: [] };
+        return {
+          pages: [
+            {
+              data: [newMessage.message],
+              meta: { totalItems: 1, nextCursor: null, prevCursor: null },
+            },
+          ],
+          pageParams: [null],
+        };
       }
-      return { messages: [...prev.messages, data.message] };
+
+      // Assuming newMessage should be added to the first page
+      const updatedPages = prev.pages.map((page, index) => {
+        if (index === 0) {
+          return {
+            ...page,
+            data: [...page.data, newMessage.message],
+            meta: { ...page.meta, totalItems: page.meta.totalItems + 1 },
+          };
+        }
+        return page;
+      });
+
+      return { ...prev, pages: updatedPages };
     });
   });
 };

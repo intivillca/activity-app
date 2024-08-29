@@ -33,3 +33,10 @@ export type GroupCard = Omit<
   | "startDate"
   | "endDate"
 >;
+
+export type PostGroup = Omit<Group, "name" | "avatar"> & {
+  name: string;
+  avatarId?: number;
+  maxSize: number;
+  type: GroupType;
+};

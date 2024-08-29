@@ -1,6 +1,5 @@
 {
   "name": "@activityapp/db",
-  "main": "dist/prismaClient.js",
   "version": "1.0.0",
   "dependencies": {
     "@prisma/client": "^5.13.0",

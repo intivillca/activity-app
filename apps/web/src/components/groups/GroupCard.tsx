@@ -16,7 +16,7 @@ import { FaCirclePlus } from "react-icons/fa6";
 import { FaLock } from "react-icons/fa";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { getMediumImg } from "../../api-file-server/get-medium-img";
+import { getLargeImg } from "../../api-file-server/get-large-img";
 
 export const GroupCard = ({
   ID,
@@ -27,6 +27,7 @@ export const GroupCard = ({
   tags,
 }: GroupCardProps) => {
   const joinGroup = useCallback((ID: number) => {
+    //TODO: JOIN GROUp
     console.log(ID);
   }, []);
   const { t } = useTranslation();
@@ -37,10 +38,10 @@ export const GroupCard = ({
       variant="outline"
     >
       {avatar && (
-        <AspectRatio ratio={[1, 1, 3 / 4, 9 / 16]} flex={"0 1 200px"}>
+        <AspectRatio ratio={[1, 1, 3 / 4, 9 / 16]} flex={"0 0 200px"}>
           <Image
             objectFit="cover"
-            src={getMediumImg(avatar.src)}
+            src={getLargeImg(avatar.src)}
             overflow={"hidden"}
           />
         </AspectRatio>
